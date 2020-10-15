@@ -5,7 +5,7 @@ Issues Map is a Wordpress plugin for managing urban infrastructure issues.
 It was created by Tim Brogden as a volunteer project for the activist group 
 Pilsēta cilvēkiem [City For People] who are based in Rīga, Latvia.
 Users can submit issues, upload images, set locations for them, and 
-view them in a list or on a map, Issue locations can be determined
+view them in a list or on a map. Issue locations can be determined
 automatically from the GPS data of the images. The list and map views can be
 filtered by issue category and status. Users can create formal issue reports
 and send them by email (for example, to the relevant authorities).
@@ -34,10 +34,20 @@ as you wish.
 ## Issue categories
 Issues can be assigned to an issue category which has a name, icon and colour.
 By default, a single issue category 'Uncategorized' is provided. You can create 
-further issue categories using the Issues Map -> Issue categories page.
+further issue categories using the Issues Map -> Issue categories page. Categories 
+are hierarchical with support for two levels, e.g. 
+```
+Category 1
+  Subcategory 1.1
+  Subcategory 1.2
+  Subcategory 1.3
+Category 2
+Category 3
+  Subcategory 3.1
+```
 
 ## Issues statuses
-By default, issues can have one of three statuses: Unreported, Report Created, 
+By default, issues can have one of three statuses: Unreported, Report Created or 
 Report Sent. A basic workflow is automatically built in to the plugin so that
 new issues are given the status 'Unreported' (which is not displayed, for stylistic
 reasons). When the first issue report is created for an issue, the issue status 
@@ -87,13 +97,15 @@ To add an individual issue to a page or post, use the shortcode:
       [issues-map id="<issue_id>" view="issue"]
 E.g., [issues-map id="42" view="issue"]
 ```
-where <issue_id> is the ID of the issue post you wish to display.
+where <issue_id> is the ID of the issue you wish to display.
 To add an individual issue report to a page or post, use the shortcode:
 ```
       [issues-map id="<report_id>" view="report"]
 E.g., [issues-map id="43" view="report"]
 ```
-where <report_id> is the ID of the issue report post you wish to display.
+where <report_id> is the ID of the issue report you wish to display.
+Bear in mind that the content of issue reports is only visible to their
+authors and to moderators.
 
 ## Uninstallation
 The plugin can be deactivated and deleted in the normal way within the Wordpress 
@@ -133,7 +145,7 @@ In the event that issue reports cannot be downloaded as PDF files:
 In the event that the issue report sending (emailing) functionality does not work:
 - Check that sendmail is correctly configured on your web server.
 For example, you may need to specify valid SMTP settings in your sendmail.ini 
-and php.ini files or use an appropriate SMTP plugin.
+and php.ini files or use an appropriate SMTP plugin such as WP Mail SMTP.
 In order to send issue reports, a valid moderator email address must also be specified 
 in the plugin settings as reports are emailed using that address as the sender.
 If you do not require the report sending functionality, you can leave the 
@@ -143,10 +155,10 @@ moderator email address blank.
 Some possible future improvements to this plugin are:
 - Electronic signature of generated PDF files.
 - Upvoting of issues.
-- Further moderation functionality (e.g. anonymous submissions require approval).
-- Further privacy handling (e.g. issue reports periodically deleted or archived).
+- Further moderation functionality (e.g., anonymous submissions require approval).
+- Further privacy handling (e.g., issue reports periodically deleted or archived).
 - Display some issue status statistics.
-- Integrate address lookup service. (Google Maps Geolocation API / Places API).
+- Integrate address lookup service, e.g., the Google Maps Geolocation API or Places API.
 
 Best wishes,
 Tim
