@@ -1,0 +1,416 @@
+/* 
+    The Issues Map plugin is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+/* Issue categories and statuses */
+
+div.im-icon-preview {
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    color: #fff;
+    text-align: center;
+}
+
+tr.form-field div.im-icon-preview,
+div.form-field div.im-icon-preview {
+    margin-right: 36px;
+}
+
+div.im-icon-preview .material-icons {
+    font-size: 24px;
+}
+
+tr.form-field div.im-color-picker,
+div.form-field div.im-color-picker {
+    display: inline-block;
+    margin-top: 5px;
+    vertical-align: top;
+}
+
+div.im-icon-picker {
+    display: inline-block;
+    margin: 5px 0;
+}
+
+i.im-icon-picker-icon {
+    color: #fff;
+    padding: 3px;
+}
+
+div.im-icon-picker-icons {
+    background-color: #aaa;
+}
+
+/* Maps */
+
+div.im-map {
+    max-width: 100%;
+}
+
+div.im-standard-map {
+    width: 100%;
+    height: 450px;
+}
+
+div.im-location-picker {
+    width: 480px; 
+    height: 360px;
+}
+
+.im-marker {
+    display: block;
+    color: #fff;
+    width: 36px;
+    line-height: 36px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.im-marker .material-icons {
+    font-size: 24px;
+}
+
+/* Map info window */
+
+div.im-listing-style-popup {
+    position: relative;
+    max-width: 20rem;
+}
+
+div.im-listing-style-popup div.im-listing-item-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+div.im-listing-style-popup div.im-listing-item-image img {
+    opacity: 0.2;
+}
+
+/* Forms */
+
+div.im-form-section {
+    margin: 1rem 0;
+}
+
+div.im-form-section hr {
+    margin: 5px 0;
+}
+
+div.im-form-inner label {
+    display: block;
+}
+
+div.im-form-inner label.im-inline {
+    display: inline-block;
+}
+
+/* Settings */
+
+table.im-settings-table input[type='text'] {
+    width: 100%;
+    max-width: 350px;
+}
+
+table.im-settings-table input[type='number'] {
+    min-width: 8rem;
+}
+
+table.im-settings-table td {
+    vertical-align: top;
+    padding-right: 2rem;
+}
+
+td.im-settings-section {
+    padding-top: 1rem;
+}
+
+/* Listing item */
+
+div.im-listing-style-list {
+    border: #999 1px solid;
+    box-shadow: 2px 3px #999;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    max-width: 700px;
+}
+
+div.im-listing-item-image {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+div.im-listing-item-image img {
+    display: block;
+    border: #999 2px solid;
+}
+
+div.im-listing-item-summary {
+    display: inline-block;
+    vertical-align: top;
+    max-width: 410px;
+}
+
+div.im-listing-item-summary div.im-issue-description {
+    font-style: italic;
+}
+
+/* Issue details */
+
+div.im-issue-details {
+    line-height: normal;
+}
+
+div.im-issue-groups {
+    margin-bottom: 0.5rem;
+}
+
+div.im-issue-category,
+div.im-issue-status {
+    display: inline-block;
+    padding: 5px 10px 5px 5px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    color: white;
+    line-height: 24px;
+}
+
+div.im-issue-category span,
+div.im-issue-status span,
+div.im-issue-category i,
+div.im-issue-status i {
+    vertical-align: middle;    
+}
+
+div.im-form-section input.im-issue-title {
+    width: 100%;
+    max-width: 550px;
+}
+
+div.im-issue-summary, div.im-issue-description {
+    text-align: left;
+    margin: 0.5rem 0;
+}
+
+div.im-issue-summary label {
+    display: inline-block;
+    width: 8rem;
+}
+
+/* Issue view */
+
+div.im-image-item {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 1rem 1rem 0;
+}
+
+div.im-image-item div.im-featured-star {
+    display: none;
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    color: gold;
+}
+
+div.im-image-item.im-featured div.im-featured-star {
+    display: inline;
+}
+
+a.im-edit-link {
+    margin-right: 1rem;
+}
+
+img.im-selectable {
+    cursor: pointer;
+}
+
+img.im-selected {
+    border: #2eea79 6px solid;
+}
+
+div.im-reports-summary {
+    margin-bottom: 1rem;
+}
+
+span.im-report-summary-text {
+    margin-right: 1rem;
+}
+
+/* Reports */
+
+@media screen and (min-width: 768px) { 
+
+    div.im-edit-report-view, div.im-edit-email-view {
+        border: 1px solid;
+        padding: 2rem;
+        box-shadow: 4px 8px #999;
+    }
+    
+    div.im-edit-report-view div.im-report-field-rhs {
+        text-align: right;
+        float: right;
+        margin-bottom: 1rem;
+    }
+}
+
+div.im-edit-report-view, div.im-edit-email-view {
+    margin-bottom: 2rem;
+}
+    
+div.im-edit-report-view div.im-report-field-rhs {
+    max-width: 15rem;
+}
+
+div.im-report-view, div.im-email-view {
+    border: 1px solid;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 4px 8px #999;
+}
+
+div.im-report-view div.im-report-field-rhs {
+    text-align: right;
+    float: right;
+    margin-bottom: 1rem;
+}
+
+div.im-recipient-name-section, div.im-recipient-email-section, div.im-greeting-section, div.im-addressee-section {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+div.im-salutation-line-section {
+    padding-top: 2rem;
+}
+
+div.im-email-label {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 0.5rem;
+    font-weight: bold;
+    width: 6rem;
+}
+
+div.im-email-header {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid;
+}
+
+div.im-email-body {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid;
+    margin-top: 0.5rem;
+    margin-bottom: 0px;
+    min-width: 70%;
+}
+
+div.im-field-help {
+    font-style: italic;
+}
+
+div.im-report-view div.im-image-item {
+    display: block;
+}
+
+/* Menus */
+
+div.im-menu {
+    text-align: right;
+}
+
+div.im-menu hr {
+    margin: 5px 0;
+}
+
+/* General */
+
+.im-hidden {
+    display: none;
+}
+
+div.im-clear {
+    clear: both;
+}
+
+.im-bold {
+    font-weight: bold;
+}
+
+.im-italic {
+    font-style: italic;
+}
+
+div.im-inline {
+    display: inline-block;
+}
+
+p.im-message {
+    color: blue;
+}
+
+img.im-image {
+    max-width: 100%;
+}
+
+input.im-button,
+a.im-button {
+    min-width: 6rem;
+    text-align: center;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+input[type="button"].im-secondary-button,
+input[type="button"].im-button:disabled,
+a.button.im-secondary-button,
+a.button:visited.im-secondary-button,
+input[type="button"].im-back-button,
+a.button.im-back-button,
+a.button:visited.im-back-button
+{
+    color: #444;
+    background-color: #ddd;
+}
+
+input[type="text"].im-text {
+    min-width: 10rem;
+}
+
+textarea.im-textarea {
+    width: 100%;
+    max-width: 100%;
+}
+
+figcaption.im-caption {
+    font-style: italic;
+}
+
+select.im-select {
+    margin-right: 10px;
+    margin-bottom: 5px;
+    min-width: 10rem;
+}
