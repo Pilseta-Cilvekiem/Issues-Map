@@ -77,7 +77,7 @@ class GoogleMap {
             $content .= '<input type="hidden" id="im-map-nonce" name="im-map-nonce" value="' . $wpnonce .'"></input>';
             
         } else {
-            $content = __('Unable to display Google map - missing API key in plugin settings.', 'issues-map');
+            $content = esc_html__('Unable to display Google map - missing API key in plugin settings.', 'issues-map');
         }
         return $content;
     }
@@ -100,7 +100,7 @@ class GoogleMap {
             }
             $content = "<img class='im-image' alt='$alt' src='$src'></img>";
         } else {
-            $content = __('Unable to display Google map - missing API key in plugin settings.', 'issues-map');
+            $content = esc_html__('Unable to display Google map - missing API key in plugin settings.', 'issues-map');
         }
         return $content;
     }

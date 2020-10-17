@@ -29,6 +29,7 @@ define('IssuesMap\COOKIE_EXPIRY_DAYS', 28);
 define('IssuesMap\IMAGES_FOLDER_NAME', 'issues-map');
 
 // Custom post types / taxonomies
+// Note: Taxonomy names are hardwired in some places in the code to allow string translation.
 define('IssuesMap\ISSUE_POST_TYPE', 'issue');
 define('IssuesMap\ISSUE_POST_TYPE_PLURAL', 'issues');
 define('IssuesMap\REPORT_POST_TYPE', 'report');

@@ -1,0 +1,1164 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/issues-map\n"
+"POT-Creation-Date: 2020-10-17T10:03:24+02:00\n"
+"PO-Revision-Date: 2020-10-17 12:27+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: lv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==0 || (n%100>=11 && n%100<=19) ? 0 : n"
+"%10==1 && n%100!=11 ? 1 : 2);\n"
+
+#. Plugin Name of the plugin
+#: admin-manager.php:91 admin-manager.php:394 async-manager.php:451
+msgid "Issues Map"
+msgstr "Uzlabojumu Karte"
+
+#. Plugin URI of the plugin
+msgid "https://github.com/Pilseta-Cilvekiem/issues-map"
+msgstr "https://github.com/Pilseta-Cilvekiem/issues-map"
+
+#. Description of the plugin
+msgid ""
+"Submit issues, view them in a list or on a map, save them as PDFs, send them "
+"by email."
+msgstr ""
+"Pievienot uzlabojumus, apskatīt tos sarakstā vai kartē, sagatavot "
+"iesniegumus PDF formatā un nosūtīt tos pa e-pastu."
+
+#. Author of the plugin
+msgid "Tim Brogden"
+msgstr "Tims Brogdens"
+
+#. Author URI of the plugin
+msgid "https://github.com/Tim-Brogden"
+msgstr "https://github.com/Tim-Brogden"
+
+#: admin-manager.php:80
+msgid "Settings"
+msgstr "Iestatījumi"
+
+#: admin-manager.php:81
+msgid "Issue categories"
+msgstr "Uzlabojuma kategorijas"
+
+#: admin-manager.php:82
+msgid "Issue statuses"
+msgstr "Uzlabojuma statusi"
+
+#: admin-manager.php:83
+msgid "Report templates"
+msgstr "Iesnieguma veidnes"
+
+#: admin-manager.php:90 admin-manager.php:132
+msgid "Issues Map Settings"
+msgstr "Uzlabojumu Kartes Iestatījumi"
+
+#: admin-manager.php:118
+msgid ""
+"<a href=\"https://developers.google.com/maps/documentation/javascript/get-"
+"api-key\" title=\"(opens in new tab)\" target=\"_blank\">Get an API key</a>. "
+"Please ensure that Maps Javascript API and Maps Static API are enabled for "
+"your API key."
+msgstr ""
+"<a href=\"https://developers.google.com/maps/documentation/javascript/get-"
+"api-key\" title=\"(atveras jaunā cilnē)\" target=\"_blank\">Pieprasi API "
+"atslēgu</a>. Maps Javascript API un Maps Static API ir jābūt ieslēgti API "
+"atslēgas iestatījumos."
+
+#: admin-manager.php:119
+msgid ""
+"Used to send reports from. If not specified, report sending is disabled."
+msgstr ""
+"Tiek izmantots iesniegumu nosūtīšanai. Atstājot tukšu, iesnieguma nosūtīšana "
+"tiek izslēgta."
+
+#: admin-manager.php:120
+msgid "Note: moderators have full permissions."
+msgstr "Moderātoriem ir visas atļaujas."
+
+#: admin-manager.php:122 async-manager.php:424
+msgid "Report sending is disabled in demo mode."
+msgstr "Iesnieguma nosūtīšana nenotiks jo spraudnis ir demo režīmā."
+
+#: admin-manager.php:137
+msgid "Page settings"
+msgstr "Lapu iestatījumi"
+
+#: admin-manager.php:139
+msgid "List view"
+msgstr "Saraksts"
+
+#: admin-manager.php:140
+msgid "Map view"
+msgstr "Karte"
+
+#: admin-manager.php:141 admin-manager.php:164 admin-manager.php:173
+msgid "Add issue"
+msgstr "Pievienot uzlabojumu"
+
+#: admin-manager.php:142
+msgid "Automatically generate content"
+msgstr "Automātiski ģenerēt saturu"
+
+#: admin-manager.php:143
+msgid "Open issues in a new tab"
+msgstr "Atvērt uzlabojumus jaunā cilnē"
+
+#: admin-manager.php:144
+msgid "Show top links menu"
+msgstr "Rādīt izvelni augšā"
+
+#: admin-manager.php:145
+msgid "Show bottom links menu"
+msgstr "Rādīt izvelni apakšā"
+
+#: admin-manager.php:148
+msgid "Map settings"
+msgstr "Kartes iestatījumi"
+
+#: admin-manager.php:150
+msgid "Google Maps API Key"
+msgstr "Google Maps API Atslēga"
+
+#: admin-manager.php:151
+msgid "Centre latitude"
+msgstr "Centra platums"
+
+#: admin-manager.php:152
+msgid "Centre longitude"
+msgstr "Centra garums"
+
+#: admin-manager.php:153
+msgid "Zoom level (main map)"
+msgstr "Zoom (galvenā kartē)"
+
+#: admin-manager.php:154
+msgid "Zoom level (issue location)"
+msgstr "Zoom (uzlabojuma skats)"
+
+#: admin-manager.php:157 issue-content.php:288 type-manager.php:69
+#: type-manager.php:71
+msgid "Reports"
+msgstr "Iesniegumi"
+
+#: admin-manager.php:159
+msgid "Include images in reports"
+msgstr "Pievienot attēlus iesniegumos"
+
+#: admin-manager.php:162
+msgid "Permissions (logged in users)"
+msgstr "Atļaujas (reģistrētiem lietotājiem)"
+
+#: admin-manager.php:165 admin-manager.php:174
+msgid "Upload images"
+msgstr "Augšupielādēt attēlus"
+
+#: admin-manager.php:166 admin-manager.php:175
+msgid "Comment on issues"
+msgstr "Komentēt par uzlabojumiem"
+
+#: admin-manager.php:167 admin-manager.php:176
+msgid "Send issue reports to moderators"
+msgstr "Nosūtīt iesniegumus moderātoriem"
+
+#: admin-manager.php:168 admin-manager.php:177
+msgid "Send issue reports to anyone"
+msgstr "Nosūtīt iesniegumus ikvienam"
+
+#: admin-manager.php:171
+msgid "Permissions (anonymous users)"
+msgstr "Atļaujas (anonīmiem lietotājiem)"
+
+#: admin-manager.php:183
+msgid "Moderation"
+msgstr "Moderācija"
+
+#: admin-manager.php:185
+msgid "Moderator email"
+msgstr "Moderātora e-pasts"
+
+#: admin-manager.php:186
+msgid "Moderators"
+msgstr "Moderātori"
+
+#: admin-manager.php:261
+msgid "Enter one user's email address or login per line."
+msgstr "Viens lietotāja vārds vai e-pasts katrā rindā."
+
+#: admin-manager.php:390
+msgid "Issues List"
+msgstr "Uzlabojumu Saraksts"
+
+#: admin-manager.php:398
+msgid "Submit Issue"
+msgstr "Pievienot Uzlabojumu"
+
+#: admin-manager.php:422 issue-content.php:369
+msgid "Uncategorized"
+msgstr "Nekategorizēts"
+
+#: admin-manager.php:439 issue-content.php:380
+msgid "Unreported"
+msgstr "Neiesniegts"
+
+#: admin-manager.php:445
+msgid "Report created"
+msgstr "Iesniegums sagatavots"
+
+#: admin-manager.php:451
+msgid "Report sent"
+msgstr "Iesniegums nosūtīts"
+
+#: async-manager.php:64
+msgid "Please enter an issue title."
+msgstr "Lūdzu ievadīt uzlabojuma virsrakstu."
+
+#: async-manager.php:68
+msgid "Please enter your name."
+msgstr "Lūdzu ievadīt Tavu vārdu."
+
+#: async-manager.php:92
+msgid "Error while updating the issue details."
+msgstr "Notika kļūda atjaunojot uzlabojuma informāciju."
+
+#: async-manager.php:95
+msgid "You are not authorised to edit this issue."
+msgstr "Tev nav atļauts rediģēt šo uzlabojumu."
+
+#: async-manager.php:124
+msgid "Error while adding a new issue."
+msgstr "Notika kļūda pievienojot jaunu uzlabojumu."
+
+#: async-manager.php:127
+msgid "You are not authorised to add issues."
+msgstr "Tev nav atļauts pievienot uzlabojumus."
+
+#: async-manager.php:170
+msgid "Error while adding images to the issue."
+msgstr "Notika kļūda pievienojot attēlus."
+
+#: async-manager.php:176
+msgid "You are not authorised to add images to this issue."
+msgstr "Tev nav atļauts pievienot attēlus šim uzlabojumam."
+
+#: async-manager.php:228
+msgid "Error updating issue location."
+msgstr "Notika kļūda saglabājot uzlabojuma atrašanās vietu."
+
+#: async-manager.php:231
+msgid "Missing latitude and longitude parameter values."
+msgstr "Pietrūkst platuma un garuma datiem."
+
+#: async-manager.php:298
+msgid "Please enter a greeting and recipient name."
+msgstr "Lūdzu ievadīt sveicienu un saņēmēja vārdu."
+
+#: async-manager.php:302
+msgid "Please enter your address and/or email address."
+msgstr "Lūdzu ievadīt adresi un/vai e-pasta adresi."
+
+#: async-manager.php:306
+msgid "Please enter some content for the report."
+msgstr "Lūdzu ievadīt iesnieguma saturu."
+
+#: async-manager.php:310
+msgid "Please enter a sign off and your name."
+msgstr "Lūdzu ievadīt atvadu un Tavu vārdu."
+
+#: async-manager.php:346
+msgid "Error while updating report information."
+msgstr "Notika kļūda atjaunojot iesnieguma informāciju."
+
+#: async-manager.php:349
+msgid "You are not authorised to edit this information."
+msgstr "Tev nav atļauts rediģēt šo informāciju."
+
+#: async-manager.php:382
+msgid "Error while creating report."
+msgstr "Notika kļūda pievienojot jaunu iesniegumu."
+
+#: async-manager.php:384
+msgid "Error while creating report template."
+msgstr "Notika kļūda pievienojot jaunu iesnieguma veidni."
+
+#: async-manager.php:388
+msgid "You are not authorised to add new reports."
+msgstr "Tev nav atļauts pievienot iesniegumus."
+
+#: async-manager.php:429
+msgid "You are not authorised to send this report."
+msgstr "Tev nav atļauts nosūtīt šo iesniegumu."
+
+#: async-manager.php:432
+msgid ""
+"Please specify valid email addresses in the report for both yourself and the "
+"recipient."
+msgstr "Lūdzu ievadīt derīgas e-pasta adreses gan Tev gan saņēmējam."
+
+#: async-manager.php:435
+msgid "You are only authorised to send reports to moderators."
+msgstr "Tev ir atļauja nosūtīt iesniegumus tikai moderātoriem."
+
+#: async-manager.php:440 report-data.php:84
+msgid "Issue report"
+msgstr "Iesniegums"
+
+#: async-manager.php:442
+msgid "This email has been sent automatically from %s."
+msgstr "Šis e-pasts tika automatiski nosūtīts no %s."
+
+#: async-manager.php:460
+msgid "The report has been sent to %s"
+msgstr "Iesniegums ir nosūtīts saņēmējam (%s)"
+
+#: async-manager.php:463
+msgid "Error while trying to send the report."
+msgstr "Notika kļūda nosūtījot iesniegumu."
+
+#: async-manager.php:466 async-manager.php:498
+msgid "Unable to create a PDF file for this report."
+msgstr "PDF fails netika veiksmīgi sagatavots."
+
+#: async-manager.php:501
+msgid "You are not authorised to download this report."
+msgstr "Tev nav atļauts lejupielādēt šo iesniegumu."
+
+#: async-manager.php:528
+msgid "Error while deleting image."
+msgstr "Notika kļūda dzēsot attēlu."
+
+#: async-manager.php:561
+msgid "Error while setting the featured image."
+msgstr "Notika kļūda mainot galveno attēlu."
+
+#: async-manager.php:608
+msgid "Unable to delete this issue."
+msgstr "Kļūda dzēsot uzlabojumu."
+
+#: async-manager.php:611
+msgid "You are not authorised to delete this issue."
+msgstr "Tev nav atļauts dzēst uzlabojumu."
+
+#: async-manager.php:638
+msgid "Unable to delete the report."
+msgstr "Kļūda dzēsot iesniegumu."
+
+#: async-manager.php:641
+msgid "You are not authorised to delete the report."
+msgstr "Tev nav atļauts dzēst iesniegumu."
+
+#: async-manager.php:706
+msgid "Please log in."
+msgstr "Lūdzu pieslēgties."
+
+#: content-manager.php:81
+msgid "You are not authorised to view this report."
+msgstr "Tev nav atļauts apskatīt šo iesniegumu."
+
+#: content-manager.php:92
+msgid "You are not authorised to add or edit issues."
+msgstr "Tev nav atļauts pievienot vai rediģēt uzlabojumus."
+
+#: content-manager.php:101
+msgid "You are not authorised to add images."
+msgstr "Tev nav atļauts pievienot attēlus."
+
+#: content-manager.php:109
+msgid "You are not authorised to set issue locations."
+msgstr "Tev nav atļauts mainīt uzlabojuma atrašanās vietas."
+
+#: content-manager.php:117
+msgid "You are not authorised to add or edit issue reports."
+msgstr "Tev nav atļauts pievienot vai rediģēt iesniegumus."
+
+#: content-manager.php:142 content-manager.php:212
+msgid "Issues list"
+msgstr "Uzlabojumu saraksts"
+
+#: content-manager.php:143 content-manager.php:215
+msgid "Issues map"
+msgstr "Uzlabojumu karte"
+
+#: content-manager.php:144 content-manager.php:218
+msgid "Submit issue"
+msgstr "Pievienot uzlabojumu"
+
+#: content-manager.php:222 issue-content.php:269 issue-content.php:270
+msgid "Add images"
+msgstr "Pievienot attēlus"
+
+#: content-manager.php:225
+msgid "Set location"
+msgstr "Precizēt atrašanās vietu"
+
+#: content-manager.php:228
+msgid "Edit issue"
+msgstr "Rediģēt uzlabojumu"
+
+#: content-manager.php:231 issue-content.php:314 issue-content.php:315
+msgid "Edit location"
+msgstr "Rediģēt atrašanās vietu"
+
+#: content-manager.php:234 issue-content.php:294
+msgid "Create report"
+msgstr "Sagatavot iesniegumu"
+
+#: content-manager.php:237 report-content.php:190
+msgid "Edit report"
+msgstr "Rediģēt iesniegumu"
+
+#: filterable-view.php:36
+msgid "Only my issues"
+msgstr "Tikai mani uzlabojumi"
+
+#: filterable-view.php:39
+msgid "(Filter by category)"
+msgstr "(Izvēlies kategoriju)"
+
+#: filterable-view.php:41
+msgid "(Filter by status)"
+msgstr "(Izvēlies statusu)"
+
+#: google-map.php:80 google-map.php:103
+msgid "Unable to display Google map - missing API key in plugin settings."
+msgstr ""
+"Rādīt Google karti nav iespējams - API atslēgai pietrūkst spraudņa "
+"iestatījumos."
+
+#: google-map.php:95
+msgid "Map of issue location"
+msgstr "Atrašanās vietas karte"
+
+#: issue-category.php:49 issue-status.php:45
+msgctxt "Category or tag name"
+msgid "Name"
+msgstr "Nosaukums"
+
+#: issue-category.php:50 issue-category.php:79 issue-category.php:92
+msgid "Icon"
+msgstr "Ikona"
+
+#: issue-category.php:51 issue-content.php:42 issue-status.php:47
+msgid "Description"
+msgstr "Apraksts"
+
+#: issue-category.php:52 issue-status.php:48
+msgid "Slug"
+msgstr "Taka"
+
+#: issue-category.php:53 issue-status.php:49
+msgid "Count"
+msgstr "Skaits"
+
+#: issue-category.php:105
+msgid "Select icon:"
+msgstr "Atlasi ikonu:"
+
+#: issue-content.php:37
+msgid "Enter the details for the issue."
+msgstr "Lūdzu aizpildīt veidlapu ar informāciju par uzlabojumu."
+
+#: issue-content.php:38
+msgid ""
+"Issues submitted are visible to everyone. However, your email address (if "
+"provided) will only be visible to our moderators."
+msgstr ""
+"Pievienoti uzlabojumi ir publiski redzami, bet Tavs e-pasts (ja aizpildīts) "
+"būs redzams tikai mūsu moderātoriem."
+
+#: issue-content.php:39
+msgid "Category"
+msgstr "Kategorija"
+
+#: issue-content.php:40
+msgid "Status"
+msgstr "Statuss"
+
+#: issue-content.php:41
+msgid "Title"
+msgstr "Virsraksts"
+
+#: issue-content.php:43
+msgid "Your name (publicly visible)"
+msgstr "Tavs vārds (publiski redzams)"
+
+#: issue-content.php:44
+msgid "Your email address (optional, only visible to moderators)"
+msgstr "Tavs e-pasts (neobligāti aizpildāms, redzams tikai moderātoriem)"
+
+#: issue-content.php:45 issue-content.php:138 issue-content.php:180
+#: issues-map.php:298 report-content.php:295
+msgid "OK"
+msgstr "Labi"
+
+#: issue-content.php:45 issue-content.php:138 issues-list.php:77
+msgid "Next"
+msgstr "Turpināt"
+
+#: issue-content.php:46 issue-content.php:139 issue-content.php:196
+#: issues-map.php:299 report-content.php:294
+msgid "Cancel"
+msgstr "Atcelt"
+
+#: issue-content.php:136
+msgid "Add any images to illustrate the issue. You can also add images later."
+msgstr ""
+"Te var pievienot saistītus attēlus. Būs arī iespējams pievienot attēlus "
+"vēlāk."
+
+#: issue-content.php:137
+msgid "Images submitted are visible to everyone."
+msgstr "Attēli ir publiski redzami."
+
+#: issue-content.php:178
+msgid "Drag the pin on the map to set the issue location."
+msgstr "Lai precizētu atrašanās vietu, velc kartes tapu."
+
+#: issue-content.php:179
+msgid "Issue locations are visible to everyone."
+msgstr "Uzlabojuma atrašanās vietas ir publiski redzami."
+
+#: issue-content.php:180
+msgid "Finish"
+msgstr "Labi"
+
+#: issue-content.php:236 issue-content.php:237
+msgid "Edit details"
+msgstr "Rediģēt informāciju"
+
+#: issue-content.php:260
+msgid "Images"
+msgstr "Attēli"
+
+#: issue-content.php:264
+msgid "No images added yet."
+msgstr "Pagaidām attēlu nav."
+
+#: issue-content.php:275
+msgid "Delete selected image"
+msgstr "Dzēst atlasītu attēlu"
+
+#: issue-content.php:276
+msgid "Delete the selected image"
+msgstr "Dzēst atlasītu attēlu"
+
+#: issue-content.php:277
+msgid "Set as featured image"
+msgstr "Mainīt galveno attēlu"
+
+#: issue-content.php:278
+msgid "Make the selected image the main image"
+msgstr "Iestatīt atlasītu attēlu kā galvenais attēls"
+
+#: issue-content.php:295
+msgid "Create a report for this issue"
+msgstr "Sagatavot iesniegumu šim uzlabojumam"
+
+#: issue-content.php:302
+msgid "Location"
+msgstr "Atrašanās vieta"
+
+#: issue-content.php:319 issue-content.php:320
+msgid "Delete issue"
+msgstr "Dzēst uzlabojumu"
+
+#: issue-content.php:342 issue-content.php:449
+msgid "View this issue"
+msgstr "Apskatīt uzlabojumu"
+
+#: issue-content.php:388
+msgid "Added by:"
+msgstr "Autors:"
+
+#: issue-content.php:390
+msgid "Added on:"
+msgstr "Pievienots:"
+
+#: issue-content.php:392
+msgid "Issue ID:"
+msgstr "ID:"
+
+#: issue-content.php:393
+msgid "Comments:"
+msgstr "Komentāri:"
+
+#: issue-content.php:484
+msgid "View"
+msgstr "Apskatīt"
+
+#: issue-content.php:485
+msgid "View this report"
+msgstr "Apskatīt iesniegumu"
+
+#: issue-content.php:486
+msgid "Edit"
+msgstr "Rediģēt"
+
+#: issue-content.php:487 report-content.php:191
+msgid "Edit this report"
+msgstr "Rediģēt šo iesniegumu"
+
+#: issue-content.php:488
+msgid "Report %1$s sent by %2$s"
+msgstr "Iesniegumu %1$s nosūtīja %2$s"
+
+#: issue-content.php:489
+msgid "Report %1$s created by %2$s"
+msgstr "Iesniegumu %1$s sagatavoja %2$s"
+
+#: issue-content.php:490 issues-map.php:297
+msgid "Delete"
+msgstr "Dzēst"
+
+#: issue-content.php:491 report-content.php:197
+msgid "Delete this report"
+msgstr "Dzēst šo iesniegumu"
+
+#: issue-content.php:498
+msgid "anonymous user"
+msgstr "anonīms lietotājs"
+
+#: issue-content.php:518
+msgid "No reports available for this issue."
+msgstr "Pagaidām iesniegumu nav."
+
+#: issue-status.php:46 issue-status.php:74 issue-status.php:87
+msgid "Colour"
+msgstr "Krāsa"
+
+#: issues-list.php:76
+msgid "Previous"
+msgstr "Iepriekējais"
+
+#: issues-list.php:84
+msgid "Page %1$d / %2$d"
+msgstr "Lapa %1$d / %2$d"
+
+#: issues-list.php:90
+msgid "%d issue found."
+msgid_plural "%d issues found."
+msgstr[0] "%d uzlabojumu tika atrasti."
+msgstr[1] "%d uzlabojums tika atrasts."
+msgstr[2] "%d uzlabojumi tika atrasti."
+
+#: issues-list.php:93 type-manager.php:45
+msgid "No issues found."
+msgstr "Neviens uzlabojums netika atrasts."
+
+#: issues-map.php:281
+msgid "Select an image"
+msgstr "Atlasi attēlu"
+
+#: issues-map.php:282
+msgid "Please select an image first."
+msgstr "Lūdzu vispirms kādu attēlu izlasīt."
+
+#: issues-map.php:283
+msgid "Already featured image"
+msgstr "Jau galvenais attēls"
+
+#: issues-map.php:284
+msgid "The selected image is already the featured image."
+msgstr "Atlasīts attēls jau ir galvenais attēls."
+
+#: issues-map.php:285
+msgid "Delete the selected image?"
+msgstr "Dzēst atlasītu attēlu?"
+
+#: issues-map.php:286
+msgid "Delete this issue including any associated images and reports?"
+msgstr "Dzēst šo uzlabojumu ieskaitot saistītus attēlus un iesniegumus?"
+
+#: issues-map.php:287
+msgid "Issue deleted"
+msgstr "Uzlabojums dzēsts"
+
+#: issues-map.php:288
+msgid "Issue successfully deleted. Click OK to go to the issues list."
+msgstr ""
+"Uzlabojums veiksmīgi dzēsts. Piespied pogu Labi lai ietu uz uzlabojumu "
+"sarakstu."
+
+#: issues-map.php:292
+msgid "Email the report to the recipient?"
+msgstr "Nosūtīt saņēmējam iesniegumu?"
+
+#: issues-map.php:293
+msgid "Send"
+msgstr "Sūtīt"
+
+#: issues-map.php:295
+msgid "Delete this report?"
+msgstr "Dzēst šo iesniegumu?"
+
+#: issues-map.php:296
+msgid "Please confirm"
+msgstr "Lūdzu apstiprināt"
+
+#: report-content.php:41 report-content.php:276
+msgid "Invalid report ID."
+msgstr "Nederīgs iesnieguma ID."
+
+#: report-content.php:75 report-content.php:292
+msgid "For issue:"
+msgstr "Uzlabojumam:"
+
+#: report-content.php:104
+msgid "Template for issue categories:"
+msgstr "Veidne uzlabojuma kategorijām:"
+
+#: report-content.php:112 report-content.php:414
+msgid "Email:"
+msgstr "E-pasts:"
+
+#: report-content.php:113
+msgid "To:"
+msgstr "Saņēmējs:"
+
+#: report-content.php:114
+msgid "Message:"
+msgstr "Ziņa:"
+
+#: report-content.php:115 report-content.php:418
+msgid "Attachment:"
+msgstr "Iesniegums:"
+
+#: report-content.php:128 report-writer.php:74
+msgid "Ref:"
+msgstr "Atsauce:"
+
+#: report-content.php:167
+msgid "This report was sent on %s."
+msgstr "Šis iesniegums tika nosūtīts %s."
+
+#: report-content.php:174
+msgid "Send report"
+msgstr "Nosūtīt iesniegumu"
+
+#: report-content.php:178
+msgid "Download as PDF"
+msgstr "Lejupielādēt PDF"
+
+#: report-content.php:182
+msgid "Back to issue"
+msgstr "Atpakaļ"
+
+#: report-content.php:190
+msgid "Edit report template"
+msgstr "Rediģēt iesnieguma veidni"
+
+#: report-content.php:191
+msgid "Edit this report template"
+msgstr "Rediģēt šo iesnieguma veidni"
+
+#: report-content.php:196
+msgid "Delete report"
+msgstr "Dzēst iesniegumu"
+
+#: report-content.php:223 report-content.php:279
+msgid "You are not authorised to edit this report."
+msgstr "Tev nav atļauts rediģēt šo iesniegumu."
+
+#: report-content.php:229
+msgid ""
+"Please do not include personal information in report templates. Use the "
+"suggested {...} tags instead."
+msgstr ""
+"Ieteicams neiekļaut personīgu informāciju iesnieguma veidnēs, bet lietot "
+"piedāvātas {…} birkas."
+
+#: report-content.php:266
+msgid "You are not authorised to create a report for this issue."
+msgstr "Tev nav atļauts pievienot iesniegumu šim uzlabojumam."
+
+#: report-content.php:284
+msgid "Invalid issue ID."
+msgstr "Nederīgs uzlabojuma ID."
+
+#: report-content.php:293
+msgid "Enter the details for the issue report."
+msgstr "Lūdzu aizpildīt veidlapu ar iesniedzamo informāciju."
+
+#: report-content.php:297
+msgid "The report will not be sent at this stage."
+msgstr "Šeit iesniegums netiek nosūtīts, tikai sagatavots."
+
+#: report-content.php:299
+msgid ""
+"Other users can see who has created a report for an issue. However, report "
+"contents are only visible to the person who created them and to our site "
+"moderators."
+msgstr ""
+"Citi lietotāji var redzēt kurš ir sagatavojis iesniegumu, bet tā saturs ir "
+"redzams tikai autoram un moderātoriem."
+
+#: report-content.php:407
+msgid "Your address"
+msgstr "Tava adrese"
+
+#: report-content.php:408
+msgid "Your email"
+msgstr "Tavs e-pasts"
+
+#: report-content.php:409
+msgid "To address"
+msgstr "Saņēmēja adrese"
+
+#: report-content.php:410
+msgid "Greeting"
+msgstr "Sveiciens"
+
+#: report-content.php:411
+msgid "Report content"
+msgstr "Iesnieguma saturs"
+
+#: report-content.php:412
+msgid "Sign off"
+msgstr "Atvads"
+
+#: report-content.php:413
+msgid "Your name"
+msgstr "Tavs vārds"
+
+#: report-content.php:415
+msgid "Recipient name"
+msgstr "Saņēmēja vārds"
+
+#: report-content.php:416
+msgid "Recipient email"
+msgstr "Saņēmēja e-pasts"
+
+#: report-content.php:417
+msgid "Message"
+msgstr "Ziņa"
+
+#: report-content.php:503
+msgid "You can include "
+msgstr "Var lietot "
+
+#: report-content.php:508
+msgid " and the HTML tags &lt;b&gt; &lt;i&gt; &lt;u&gt; and &lt;a&gt;"
+msgstr " un HTML birkas &lt;b&gt; &lt;i&gt; &lt;u&gt; un &lt;a&gt;"
+
+#: type-manager.php:34 type-manager.php:36
+msgid "Issues"
+msgstr "Uzlabojumi"
+
+#: type-manager.php:35 type-manager.php:37
+msgid "Issue"
+msgstr "Uzlabojums"
+
+#: type-manager.php:38 type-manager.php:73 type-manager.php:108
+msgid "Add New"
+msgstr "Pievienot Jaunu"
+
+#: type-manager.php:39
+msgid "Add New Issue"
+msgstr "Pievienot Uzlabojumu"
+
+#: type-manager.php:40
+msgid "New Issue"
+msgstr "Jauns Uzlabojums"
+
+#: type-manager.php:41
+msgid "Edit Issue"
+msgstr "Rediģēt Uzlabojumu"
+
+#: type-manager.php:42
+msgid "View Issue"
+msgstr "Apskatīt Uzlabojumu"
+
+#: type-manager.php:43
+msgid "All Issues"
+msgstr "Visi Uzlabojumi"
+
+#: type-manager.php:44
+msgid "Search Issues"
+msgstr "Meklēt Uzlabojumus"
+
+#: type-manager.php:70 type-manager.php:72
+msgid "Report"
+msgstr "Iesniegums"
+
+#: type-manager.php:74
+msgid "Add New Report"
+msgstr "Pievienot Jaunu Iesniegumu"
+
+#: type-manager.php:75
+msgid "New Report"
+msgstr "Jauns Iesniegums"
+
+#: type-manager.php:76
+msgid "Edit Report"
+msgstr "Rediģēt Iesniegumu"
+
+#: type-manager.php:77
+msgid "View Report"
+msgstr "Apskatīt Iesniegumu"
+
+#: type-manager.php:78
+msgid "All Report"
+msgstr "Visi Iesniegumu"
+
+#: type-manager.php:79
+msgid "Search Reports"
+msgstr "Meklēt Iesniegumus"
+
+#: type-manager.php:80
+msgid "No reports found."
+msgstr "Neviens iesniegums netika atrasts."
+
+#: type-manager.php:104 type-manager.php:106
+msgid "Report Templates"
+msgstr "Iesnieguma Veidnes"
+
+#: type-manager.php:105 type-manager.php:107
+msgid "Report Template"
+msgstr "Iesnieguma Veidne"
+
+#: type-manager.php:109
+msgid "Add New Report Template"
+msgstr "Pievienot Jaunu Iesnieguma Veidni"
+
+#: type-manager.php:110
+msgid "New Report Template"
+msgstr "Jauna Iesnieguma Veidne"
+
+#: type-manager.php:111
+msgid "Edit Report Template"
+msgstr "Rediģēt Iesnieguma Veidni"
+
+#: type-manager.php:112
+msgid "View Report Template"
+msgstr "Apskatīt Iesnieguma Veidni"
+
+#: type-manager.php:113
+msgid "All Report Templates"
+msgstr "Visas Iesnieguma Veidnes"
+
+#: type-manager.php:114
+msgid "Search Report Templates"
+msgstr "Meklēt Iesnieguma Veidnes"
+
+#: type-manager.php:115
+msgid "No report templates found."
+msgstr "Neviena iesnieguma veidne netika atrasta."
+
+#: type-manager.php:139 type-manager.php:141
+msgid "Issue Categories"
+msgstr "Uzlabojuma Kategorijas"
+
+#: type-manager.php:140
+msgid "Issue Category"
+msgstr "Uzlabojuma Kategorija"
+
+#: type-manager.php:142
+msgid "All Issue Categories"
+msgstr "Visas Uzlabojuma Kategorijas"
+
+#: type-manager.php:143
+msgid "Edit Issue Category"
+msgstr "Rediģēt Uzlabojuma Kategoriju"
+
+#: type-manager.php:144
+msgid "View Issue Category"
+msgstr "Apskatīt Uzlabojuma Kategoriju"
+
+#: type-manager.php:145
+msgid "Update Issue Category"
+msgstr "Atjaunot Uzlabojuma Kategoriju"
+
+#: type-manager.php:146
+msgid "Add New Issue Category"
+msgstr "Pievienot Jaunu Uzlabojuma Kategoriju"
+
+#: type-manager.php:147
+msgid "New Issue Category Name"
+msgstr "Jaunas Uzlabojuma Kategorijas Nosaukums"
+
+#: type-manager.php:148
+msgid "Parent Issue Category"
+msgstr "Vecāka Uzlabojuma Kategorija"
+
+#: type-manager.php:149
+msgid "Parent Issue Category:"
+msgstr "Vecāka Uzlabojuma Kategorija:"
+
+#: type-manager.php:150
+msgid "Search Issue Categories"
+msgstr "Meklēt Uzlabojuma Kategorijas"
+
+#: type-manager.php:151
+msgid "Popular Issue Categories"
+msgstr "Vairāk lietotas Uzlabojuma Kategorijas"
+
+#: type-manager.php:152
+msgid "Separate issue categories with commas"
+msgstr "Atšķirt uzlabojuma kategorijas ar komatiem"
+
+#: type-manager.php:153
+msgid "Add or remove issue categories"
+msgstr "Pievienot vai dzēst uzlabojuma kategorijas"
+
+#: type-manager.php:154
+msgid "Choose from the most used issue categories"
+msgstr "Izvēlies no visvairāk lietotām uzlabojuma kategorijām"
+
+#: type-manager.php:155
+msgid "No issue categories found"
+msgstr "Neviena uzlabojuma kategorija netika atrasta"
+
+#: type-manager.php:156
+msgid "Back to issue categories"
+msgstr "Atpakaļ uz uzlabojuma kategorijām"
+
+#: type-manager.php:177 type-manager.php:179
+msgid "Issue Statuses"
+msgstr "Uzlabojuma Statusi"
+
+#: type-manager.php:178
+msgid "Issue Status"
+msgstr "Uzlabojuma Statuss"
+
+#: type-manager.php:180
+msgid "All Issue Statuses"
+msgstr "Visi Uzlabojuma Statusi"
+
+#: type-manager.php:181
+msgid "Edit Issue Status"
+msgstr "Rediģēt Uzlabojuma Statusu"
+
+#: type-manager.php:182
+msgid "View Issue Status"
+msgstr "Apskatīt Uzlabojuma Statusu"
+
+#: type-manager.php:183
+msgid "Update Issue Status"
+msgstr "Atjaunot Uzlabojuma Statusu"
+
+#: type-manager.php:184
+msgid "Add New Issue Status"
+msgstr "Pievienot Jaunu Uzlabojuma Statusu"
+
+#: type-manager.php:185
+msgid "New Issue Status Name"
+msgstr "Jauna Uzlabojuma Statusa Nosaukums"
+
+#: type-manager.php:186
+msgid "Parent Issue Status"
+msgstr "Vecāks Uzlabojuma Statuss"
+
+#: type-manager.php:187
+msgid "Parent Issue Status:"
+msgstr "Vecāks Uzlabojuma Statuss:"
+
+#: type-manager.php:188
+msgid "Search Issue Statuses"
+msgstr "Meklēt Uzlabojuma Statusus"
+
+#: type-manager.php:189
+msgid "Popular Issue Statuses"
+msgstr "Vairāk Lietoti Uzlabojuma Statusi"
+
+#: type-manager.php:190
+msgid "Separate issue statuses with commas"
+msgstr "Atšķirt uzlabojuma statusus ar komatiem"
+
+#: type-manager.php:191
+msgid "Add or remove issue statuses"
+msgstr "Pievienot vai dzēst uzlabojuma statusus"
+
+#: type-manager.php:192
+msgid "Choose from the most used issue statuses"
+msgstr "Izvēlies no visvairāk lietotiem uzlabojuma statusiem"
+
+#: type-manager.php:193
+msgid "No issue statuses found"
+msgstr "Neviens uzlabojuma statuss netika atrasts"
+
+#: type-manager.php:194
+msgid "Back to issue statuses"
+msgstr "Atpakaļ uz uzlabojuma statusiem"
+
+#: utils/file-uploader.php:75
+msgid "Drag & Drop Files Here"
+msgstr "Velc un nomet failus"
+
+#: utils/file-uploader.php:76
+msgid "or"
+msgstr "vai"
+
+#: utils/file-uploader.php:77
+msgid "Browse Files"
+msgstr "Atlasi failus"
+
+#: utils/file-uploader.php:84
+msgid "deleting"
+msgstr "dzēsot"
+
+#: utils/file-uploader.php:85
+msgid "Remove"
+msgstr "Noņemt"
+
+#: utils/file-uploader.php:109
+msgid "Failed to upload file."
+msgstr "Kļūda augšupielādējot failu."
+
+#: utils/file-uploader.php:198
+msgid "The uploaded file exceeds the maximum upload size of your server."
+msgstr "Tika pārsniegts servera maksimālais faila lielums."
+
+#: utils/file-uploader.php:199
+msgid "File upload failed."
+msgstr "Kļūda augšupielādējot failu."
+
+#: utils/file-uploader.php:200
+msgid "Uploaded file is too large."
+msgstr "Augšupielādēts fails ir par lielu."
+
+#: utils/file-uploader.php:201
+msgid "Uploaded file has an unsupported file type."
+msgstr "Augšupielādēta faila tips nav derīgs."
+
+#: utils/file-uploader.php:202
+msgid "The maximum number of files allowed was exceeded."
+msgstr "Tika pārsniegts maksimālais failu skaits."
+
+#: utils/file-uploader.php:203
+msgid "This field is required."
+msgstr "Šis lauks ir jāaizpilda."
+
+#: utils/wp-utils.php:168
+msgid "{issue_link} not supported in demo mode."
+msgstr "{issue_link} nav pieejams demo režīmā."
+
+#, php-format
+#~ msgid ""
+#~ "Note: some of the files were not uploaded (only %count% files allowed)"
+#~ msgstr "Daži faili netika augšupielādēti (tikai %count% atļauts)"
+
+#~ msgid "Issue category"
+#~ msgstr "Kategorija"
+
+#~ msgid "Issue status"
+#~ msgstr "Uzlabojuma statuss"
+
+#~ msgid "Issue title"
+#~ msgstr "Virsraksts"
+
+#~ msgid "Report sending is disabled because this is a demo."
+#~ msgstr "Iesniegumu nosūtīšana nenotiks jo spraudnis ir demo režīmā."
+
+#~ msgid "Unable to create PDF file for report."
+#~ msgstr "PDF fails netika veiksmīgi sagatavots."

@@ -160,5 +160,13 @@ Some possible future improvements to this plugin are:
 - Display some issue status statistics.
 - Integrate address lookup service, e.g., the Google Maps Geolocation API or Places API.
 
+## Notes for developers
+The translations file languages/issues-map.pot was generated (on Windows) using the WP-CLI make-pot command:
+```
+cd <plugin_directory>
+php -d xdebug.max_nesting_level=512 C:\tools\wp-cli\wp-cli.phar i18n make-pot . languages/issues-map.pot
+```
+The translation files (with .po and .mo extensions) were created from the .pot file using the program PoEdit.
+
 Best wishes,
 Tim

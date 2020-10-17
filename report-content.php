@@ -17,6 +17,8 @@
 
 namespace IssuesMap;
 
+require_once 'utils/wp-utils.php';
+
 /**
  * Generates the front end forms for viewing and editing issue reports and report templates.
  */
@@ -60,9 +62,9 @@ class ReportContentManager {
         // Authorisation
         // Reports are sent from the moderator's email address so check it is set
         $moderator_email = filter_var(get_option(OPTION_MODERATOR_EMAIL, get_bloginfo('admin_email')), FILTER_VALIDATE_EMAIL);
-        $user_profile = $this->_plugin->get_user_profile();
-        $can_edit = $user_profile->current_user_can_edit_post($report_id);
-        $can_send = $moderator_email && (!$issue_id || $user_profile->current_user_can_send_reports());
+        $auth_mgr = $this->_plugin->get_auth_mgr();
+        $can_edit = $auth_mgr->current_user_can_edit_post($report_id);
+        $can_send = $moderator_email && (!$issue_id || $auth_mgr->current_user_can_send_reports());
 
         $content = '';
         $images_html = '';
@@ -78,15 +80,20 @@ class ReportContentManager {
                 // Get issue images html
                 $include_images = get_option(OPTION_INCLUDE_IMAGES_IN_REPORTS, DEFAULT_INCLUDE_IMAGES_IN_REPORTS);
                 if ($include_images) {
+                    // Get the image content
+                    $upload_url = $this->_plugin->get_upload_url();
+                    $issue_data_mgr = $this->_plugin->get_issue_data_mgr();
+                    $image_data = $issue_data_mgr->get_image_meta_data($issue_id);
                     $args = array(
                         'selectable' => false,
                         'hyperlink' => true,
                         'timestamp' => true,
                         'gps' => true,
-                        'featured_image' => false,
+                        'featured_image' => '',
                     );
-                    $issue_content_mgr = $this->_plugin->get_issue_content_mgr();
-                    $images_html = $issue_content_mgr->get_images_html($issue_id, $args);
+                    require_once 'image-content.php';
+                    $image_content_mgr = new ImageContentManager();
+                    $images_html = $image_content_mgr->get_images_html($image_data, $upload_url, $args);
                     if ($images_html) {
                         $images_html = '<hr/>' . $images_html;
                     }
@@ -102,10 +109,10 @@ class ReportContentManager {
 
         if ($can_send) {
             // Email section
-            $email_str = __('Email:', 'issues-map');
-            $to_str = __('To:', 'issues-map');
-            $message_str = __('Message:', 'issues-map');
-            $attachment_str = __("Attachment:", 'issues-map');
+            $email_str = esc_html__('Email:', 'issues-map');
+            $to_str = esc_html__('To:', 'issues-map');
+            $message_str = esc_html__('Message:', 'issues-map');
+            $attachment_str = esc_html__("Attachment:", 'issues-map');
             $to_val = $recipient_name;
             if ($recipient_email) {
                 $to_val .= ' &lt;' . $recipient_email . '&gt;';
@@ -118,7 +125,7 @@ class ReportContentManager {
         }
         
         // Attachment section
-        $ref_str = __('Ref:', 'issues-map');
+        $ref_str = esc_html__('Ref:', 'issues-map');
         $content .= <<<EOS
             <div class='im-report-view'>
                 <div class='im-form-section im-clear'>
@@ -209,8 +216,8 @@ EOS;
         $post = null;
         if ($template_id !== 0) {
             // Editing report template
-            $user_profile = $this->_plugin->get_user_profile();
-            if ($user_profile->current_user_can_edit_post($template_id)) {
+            $auth_mgr = $this->_plugin->get_auth_mgr();
+            if ($auth_mgr->current_user_can_edit_post($template_id)) {
                 $post = get_post($template_id);
             } else {
                 return esc_html__('You are not authorised to edit this report.', 'issues-map');
@@ -238,16 +245,16 @@ EOS;
         $expand_placeholders = false;
         $template_id = 0;
         $post = null;
-        $user_profile = $this->_plugin->get_user_profile();
+        $auth_mgr = $this->_plugin->get_auth_mgr();
         $moderator_email = filter_var(get_option(OPTION_MODERATOR_EMAIL, get_bloginfo('admin_email')), FILTER_VALIDATE_EMAIL);
-        $can_send = $moderator_email && $user_profile->current_user_can_send_reports();
+        $can_send = $moderator_email && $auth_mgr->current_user_can_send_reports();
 
         if ($view === ADD_REPORT_VIEW) {
             // Adding report for issue
             $report_id = 0;
             $issue_id = $id;
             $expand_placeholders = true;
-            if ($user_profile->current_user_can_edit_post($issue_id)) {
+            if ($auth_mgr->current_user_can_edit_post($issue_id)) {
                 $terms = wp_get_post_terms($issue_id, ISSUE_CATEGORY_TAXONOMY, array('fields' => 'ids'));
                 $cat_id = isset($terms[0]) ? $terms[0] : 0;
                 // Get the template to base the report on (if there is one)
@@ -261,7 +268,7 @@ EOS;
         } else {
             // Editing report
             $report_id = $id;
-            if ($user_profile->current_user_can_edit_post($report_id)) {
+            if ($auth_mgr->current_user_can_edit_post($report_id)) {
                 $post = get_post($report_id);
                 if ($post) {
                     $issue_id = get_post_meta($report_id, META_ISSUE_ID, true);
@@ -287,7 +294,7 @@ EOS;
         $cancel_str = esc_attr__('Cancel', 'issues-map');
         $ok_str = esc_attr__('OK', 'issues-map');
         if ($can_send) {
-            $intro_str .= ' ' . esc_html('The report will not be sent at this stage.', 'issues-map');
+            $intro_str .= ' ' . esc_html__('The report will not be sent at this stage.', 'issues-map');
         }
         $warning = esc_html__('Other users can see who has created a report for an issue. However, report contents are only visible to the person who created them and to our site moderators.', 'issues-map');
         $href = esc_url(get_permalink($issue_id));
@@ -297,11 +304,11 @@ EOS;
         $content = <<<EOS
         <form action="" id="im-edit-report-form" class="im-form" method="post">
             <div class="im-form-inner">
-                <p class="im-intro">$intro_str</p>
-                <p class="im-message"><span class="dashicons dashicons-info-outline"></span> $warning</p>
                 <div class="im-form-section im-report-intro">
                     $for_issue_str <a href="$href">$issue_title</a>
                 </div>
+                <p class="im-intro">$intro_str</p>
+                <p class="im-message"><span class="dashicons dashicons-info-outline"></span> $warning</p>
                 $report_body
                 <div class='im-form-section'>
                     <p id='im-message' class='im-message'></p>
@@ -311,7 +318,7 @@ EOS;
                 </div>
             </div>
         </form>
-        EOS;
+EOS;
 
         return $content;
     }
@@ -405,10 +412,10 @@ EOS;
         $sign_off_str = esc_html__('Sign off', 'issues-map');
         $added_by_str = esc_html__('Your name', 'issues-map');
         $email_str = esc_html__('Email:', 'issues-map');
-        $recipient_name_str = esc_html('Recipient name', 'issues-map');
+        $recipient_name_str = esc_html__('Recipient name', 'issues-map');
         $recipient_email_str = esc_html__('Recipient email', 'issues-map');
         $message_str = esc_html__('Message', 'issues-map');
-        $attachment_str = __('Attachment:', 'issues-map');
+        $attachment_str = esc_html__('Attachment:', 'issues-map');
 
         $wpnonce = wp_create_nonce('im-edit-report');
         $content = '';
@@ -433,7 +440,7 @@ EOS;
                     </div>
                 </div>
                 <h3>{$attachment_str}</h3>
-            EOS;
+EOS;
         }
 
         $content .= <<<EOS
@@ -498,7 +505,7 @@ EOS;
             $help .= ' ' . $placeholder;
         }
         if ($allow_html) {
-             $help .= __(' and the html tags &lt;b&gt; &lt;i&gt; &lt;u&gt; and &lt;a&gt;', 'issues-map');
+             $help .= esc_html__(' and the HTML tags &lt;b&gt; &lt;i&gt; &lt;u&gt; and &lt;a&gt;', 'issues-map');
         }
         $help .= '</div>';
         return $help;

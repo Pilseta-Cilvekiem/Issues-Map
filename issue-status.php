@@ -42,11 +42,11 @@ class IssueStatusManager {
 
     public function manage_edit_issue_status_columns($columns) {
         $new_columns['cb'] = '<input type="checkbox" />';
-        $new_columns['name'] = __('Name', 'issues-map');
-        $new_columns['color'] = __('Colour', 'issues-map');
-        $new_columns['description'] = __('Description', 'issues-map');
-        $new_columns['slug'] = __('Slug', 'issues-map');
-        $new_columns['posts'] = __('Count', 'issues-map');
+        $new_columns['name'] = esc_html_x('Name', 'Category or tag name', 'issues-map');
+        $new_columns['color'] = esc_html__('Colour', 'issues-map');
+        $new_columns['description'] = esc_html__('Description', 'issues-map');
+        $new_columns['slug'] = esc_html__('Slug', 'issues-map');
+        $new_columns['posts'] = esc_html__('Count', 'issues-map');
         return $new_columns;
     }
 

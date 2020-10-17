@@ -17,6 +17,8 @@
 
 namespace IssuesMap;
 
+require_once 'filterable-view.php';
+
 /**
  * Generates the issues list content.
  */
@@ -79,13 +81,13 @@ class IssuesList extends FilterableView {
                 if ($page_num > 1) {
                     $content .= "<a id='im-list-prev-button' class='im-page-nav-link' data-go-to-page-num='{$prev_page_num}'>{$prev_str}</a>&nbsp;&nbsp;";
                 }
-                $content .= esc_html(sprintf(__('Page %d / %d', 'issues-map'), $page_num, $num_pages));
+                $content .= esc_html(sprintf(__('Page %1$d / %2$d', 'issues-map'), $page_num, $num_pages));
                 if ($page_num < $num_pages) {
                     $content .= "&nbsp;&nbsp;<a id='im-list-next-button' class='im-page-nav-link' data-go-to-page-num='{$next_page_num}'>{$next_str}</a>";
                 }
                 $content .= "</div>";
             } else {
-                $content .= "<p id='im-message'>" . esc_html(sprintf(__('%d issues found.', 'issues-map'), $query->post_count)) . "</p>";
+                $content .= "<p id='im-message'>" . esc_html(sprintf(_n('%d issue found.', '%d issues found.', $query->post_count, 'issues-map'), $query->post_count)) . "</p>";
             }
         } else {
             $content .= "<p id='im-message'>" . esc_html__('No issues found.', 'issues-map') . "</p>";

@@ -21,44 +21,20 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
     exit();
 }
 
-require_once 'constants.php';
 require_once 'admin-manager.php';
-require_once 'utils/wp-utils.php';
 
 /*
  * Deletes plugin data and settings when the plugin is deleted.
  */
 
 function issues_map_delete_plugin() {
-    // Delete custom posts
-    $posts = get_posts(array(
-        'post_type' => array(
-            ISSUE_POST_TYPE,
-            REPORT_POST_TYPE,
-            REPORT_TEMPLATE_POST_TYPE,
-        ),
-        'post_status' => 'any',
-        'numberposts' => -1
-            ));
 
-    foreach ($posts as $post) {
-        wp_delete_post($post->ID, true);
-    }
-
-    // Delete issue categories
-    WPUtils::delete_custom_terms(ISSUE_CATEGORY_TAXONOMY);
-
-    // Delete issue statuses
-    WPUtils::delete_custom_terms(ISSUE_STATUS_TAXONOMY);
-
-    // Delete plugin's uploads subdirectory
     $admin_mgr = new AdminManager();
+
+    $admin_mgr->delete_custom_posts();
+    $admin_mgr->delete_taxonomy_terms();
     $admin_mgr->delete_uploads_dir();
-
-    // Delete automatically created plugin pages
     $admin_mgr->delete_plugin_pages();
-
-    // Delete plugin settings
     $admin_mgr->delete_settings();
 }
 

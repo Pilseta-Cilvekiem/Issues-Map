@@ -29,7 +29,7 @@ class ContentManager {
     }
 
     /*
-     * Expand ISSUES_MAP_SHORTCODE shortcode into the required content.
+     * Expand ISSUES_MAP_SHORTCODE shortcode into the required content.     
      */
 
     public function issues_map_shortcode_action($atts) {
@@ -39,12 +39,8 @@ class ContentManager {
                 ),
                 $atts, ISSUES_MAP_SHORTCODE);
 
-        $user_profile = $this->_plugin->get_user_profile();
-        $issue_content_mgr = $this->_plugin->get_issue_content_mgr();
-        $report_content_mgr = $this->_plugin->get_report_content_mgr();
         $id = intval($satts['id']);
         $view = sanitize_text_field($satts['view']);
-        $authorised = $id ? $user_profile->current_user_can_edit_post($id) : $user_profile->current_user_can_add_post();
         $content = '';
         switch ($view) {
             case '':
@@ -53,6 +49,7 @@ class ContentManager {
                 if (get_option(OPTION_SHOW_HEADER_LINKS, DEFAULT_SHOW_HEADER_LINKS)) {
                     $content .= $this->get_links_menu(true);
                 }
+                require_once 'issues-list.php';
                 $issues_list = new IssuesList($this->_plugin);
                 $content .= $issues_list->get_list_view_html();
                 if (get_option(OPTION_SHOW_FOOTER_LINKS, DEFAULT_SHOW_FOOTER_LINKS)) {
@@ -63,6 +60,7 @@ class ContentManager {
                 if (get_option(OPTION_SHOW_HEADER_LINKS, DEFAULT_SHOW_HEADER_LINKS)) {
                     $content .= $this->get_links_menu(true);
                 }
+                require_once 'map-view.php';
                 $map_view = new MapView($this->_plugin);
                 $content .= $map_view->get_map_view_html();
                 if (get_option(OPTION_SHOW_FOOTER_LINKS, DEFAULT_SHOW_FOOTER_LINKS)) {
@@ -70,14 +68,14 @@ class ContentManager {
                 }
                 break;
             case ISSUE_VIEW:
-                $content .= $issue_content_mgr->get_issue_view($id);
+                $content .= $this->_plugin->get_issue_content_mgr()->get_issue_view($id);
                 if (get_option(OPTION_SHOW_FOOTER_LINKS, DEFAULT_SHOW_FOOTER_LINKS)) {
                     $content .= $this->get_links_menu(false);
                 }
                 break;
             case REPORT_VIEW:
-                if ($authorised) {
-                    $content = $report_content_mgr->get_report_view($id);
+                if ($this->can_add_or_edit($id)) {
+                    $content = $this->_plugin->get_report_content_mgr()->get_report_view($id);
                 }
                 else {
                     $content = esc_html__('You are not authorised to view this report.', 'issues-map');
@@ -88,32 +86,33 @@ class ContentManager {
                 break;
             case ADD_ISSUE_VIEW:
             case EDIT_ISSUE_VIEW:
-                if ($authorised) {
-                    $content = $issue_content_mgr->get_edit_issue_form($id);
+                if ($this->can_add_or_edit($id)) {
+                    $content = $this->_plugin->get_issue_content_mgr()->get_edit_issue_form($id);
                 } else {
                     $content = esc_html__('You are not authorised to add or edit issues.', 'issues-map');
                 }
                 break;
             case ADD_IMAGES_VIEW:
             case EDIT_IMAGES_VIEW:
-                if ($authorised && $user_profile->current_user_can_upload_images()) {
-                    $content = $issue_content_mgr->get_add_images_form($id, $view);
+                $auth_mgr = $this->_plugin->get_auth_mgr();
+                if ($this->can_add_or_edit($id) && $auth_mgr->current_user_can_upload_images()) {
+                    $content = $this->_plugin->get_issue_content_mgr()->get_add_images_form($id, $view);
                 } else {
                     $content = esc_html__('You are not authorised to add images.', 'issues-map');
                 }
                 break;
             case SET_LOCATION_VIEW:
             case EDIT_LOCATION_VIEW:
-                if ($authorised) {
-                    $content = $issue_content_mgr->get_edit_location_form($id, $view);
+                if ($this->can_add_or_edit($id)) {
+                    $content = $this->_plugin->get_issue_content_mgr()->get_edit_location_form($id, $view);
                 } else {
                     $content = esc_html__('You are not authorised to set issue locations.', 'issues-map');
                 }
                 break;
             case ADD_REPORT_VIEW:
             case EDIT_REPORT_VIEW:
-                if ($authorised) {
-                    $content = $report_content_mgr->get_edit_report_form($id, $view);
+                if ($this->can_add_or_edit($id)) {
+                    $content = $this->_plugin->get_report_content_mgr()->get_edit_report_form($id, $view);
                 } else {
                     $content = esc_html__('You are not authorised to add or edit issue reports.', 'issues-map');
                 }
@@ -124,6 +123,15 @@ class ContentManager {
     }
     
     /*
+     * Get whether the current user can add a post or edit the specified post.
+     */
+    
+    private function can_add_or_edit($post_id) {
+        $auth_mgr = $this->_plugin->get_auth_mgr();
+        return $post_id ? $auth_mgr->current_user_can_edit_post($post_id) : $auth_mgr->current_user_can_add_post();
+    }
+    
+    /*
      * Get a menu of links to the main plugin pages.
      */
     
@@ -131,9 +139,9 @@ class ContentManager {
         $list_page_id = intval(get_option(OPTION_LIST_PAGE_ID, 0));
         $map_page_id = intval(get_option(OPTION_MAP_PAGE_ID, 0));
         $add_issue_page_id = intval(get_option(OPTION_ADD_ISSUE_PAGE_ID, 0));
-        $content = $this->append_links_menu_item($list_page_id, __('Issues list'));
-        $content .= $this->append_links_menu_item($map_page_id, __('Issues map'));
-        $content .= $this->append_links_menu_item($add_issue_page_id, __('Submit issue'));
+        $content = $this->append_links_menu_item($list_page_id, __('Issues list', 'issues-map'));
+        $content .= $this->append_links_menu_item($map_page_id, __('Issues map', 'issues-map'));
+        $content .= $this->append_links_menu_item($add_issue_page_id, __('Submit issue', 'issues-map'));
         $content = trim($content, " |");
 
         if ($is_header) {        
@@ -158,10 +166,42 @@ class ContentManager {
     }
 
     /*
+     * Register custom query string parameters.
+     */
+    
+    function query_vars_filter($qvars) {
+        $qvars[] = 'view';
+        return $qvars;
+    }
+
+    /*
+     * Enable or disable comments on issues.
+     */
+    
+    function comments_open_filter($open, $post_id) {
+        if (is_singular(ISSUE_POST_TYPE)) {
+            $open = get_query_var('view') === '' && $this->_plugin->get_auth_mgr()->current_user_can_comment($post_id);
+        }
+        return $open;
+    }
+
+    /*
+     * Register edit_post_link filter to allow front-end editing.
+     */
+    
+    function edit_post_link_filter($link, $id, $text) {
+        if (get_post_type($id) === ISSUE_POST_TYPE) {
+            $url = add_query_arg('view', EDIT_ISSUE_VIEW, get_permalink($id));
+            $link = '<a class="' . esc_attr('post-edit-link') . '" href="' . esc_url($url) . '">' . $text . '</a>';
+        }
+        return $link;
+    }
+
+    /*
      * Filter issue post title.
      */
 
-    function the_title_filter($title) {
+    public function the_title_filter($title) {
         // Check if we're inside the main loop in a single Post.
         if (!is_admin() && in_the_loop() && is_main_query()) {
             $view = get_query_var('view');
@@ -239,38 +279,6 @@ class ContentManager {
         }
 
         return $content;
-    }
-
-    /*
-     * Register custom query string parameters.
-     */
-    
-    function query_vars_filter($qvars) {
-        $qvars[] = 'view';
-        return $qvars;
-    }
-
-    /*
-     * Enable or disable comments on issues.
-     */
-    
-    function comments_open_filter($open, $post_id) {
-        if (is_singular(ISSUE_POST_TYPE)) {
-            $open = get_query_var('view') === '' && $this->_plugin->get_user_profile()->current_user_can_comment($post_id);
-        }
-        return $open;
-    }
-
-    /*
-     * Register edit_post_link filter to allow front-end editing.
-     */
-    
-    function edit_post_link_filter($link, $id, $text) {
-        if (get_post_type($id) === ISSUE_POST_TYPE) {
-            $url = add_query_arg('view', EDIT_ISSUE_VIEW, get_permalink($id));
-            $link = '<a class="' . esc_attr('post-edit-link') . '" href="' . esc_url($url) . '">' . $text . '</a>';
-        }
-        return $link;
     }
 
 }

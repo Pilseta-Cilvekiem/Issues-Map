@@ -17,6 +17,8 @@
 
 namespace IssuesMap;
 
+require_once 'wp-utils.php';
+
 /**
  * Implements drag and drop image uploading.
  * This module is closely based on the Drag & Drop Multiple File Upload Cf7 plugin by codedropz.com.
@@ -45,7 +47,7 @@ class FileUploader {
         <span class="wpcf7-form-control-wrap im-file-uploader">
             <input type="file" size="40" class="wpcf7-drag-n-drop-file d-none im-file-uploader" id="im-file-uploader" aria-invalid="false" multiple="multiple" data-name="im-file-uploader" data-type="{$supported_image_types}" data-limit="{$max_image_file_size}" />
         </span>
-        EOS;
+EOS;
 
         return $content;
     }
@@ -70,17 +72,17 @@ class FileUploader {
                     'ajax_url' => admin_url('admin-ajax.php'),
                     'ajax_nonce' => wp_create_nonce("dnd-cf7-security-nonce"),
                     'drag_n_drop_upload' => array(
-                        'text' => __('Drag & Drop Files Here', 'issues-map'),
-                        'or_separator' => __('or', 'issues-map'),
-                        'browse' => __('Browse Files', 'issues-map'),
+                        'text' => esc_html__('Drag & Drop Files Here', 'issues-map'),
+                        'or_separator' => esc_html__('or', 'issues-map'),
+                        'browse' => esc_html__('Browse Files', 'issues-map'),
                         'server_max_error' => $this->dnd_cf7_error_msg('server_limit'),
                         'large_file' => $this->dnd_cf7_error_msg('large_file'),
                         'inavalid_type' => $this->dnd_cf7_error_msg('invalid_type'),
                         'max_file_limit' => $this->dnd_cf7_error_msg('max_file_limit'),
                         'required' => $this->dnd_cf7_error_msg('required'),
                         'delete' => array(
-                            'text' => __('deleting', 'issues-map'),
-                            'title' => __('Remove', 'issues-map')
+                            'text' => esc_html__('deleting', 'issues-map'),
+                            'title' => esc_html__('Remove', 'issues-map')
                         )
                     )
                 )
@@ -104,7 +106,7 @@ class FileUploader {
 
         // Tells whether the file was uploaded via HTTP POST
         if (!is_uploaded_file($file['tmp_name'])) {
-            $failed_error = __('Failed to upload file.', 'issues-map');
+            $failed_error = esc_html__('Failed to upload file.', 'issues-map');
             wp_send_json_error('(' . $file['error'] . ') ' . $failed_error);
         }
 
@@ -193,12 +195,12 @@ class FileUploader {
 
         // Array of default error message
         $errors = array(
-            'server_limit' => __('The uploaded file exceeds the maximum upload size of your server.', 'issues-map'),
-            'failed_upload' => __('File upload failed.', 'issues-map'),
-            'large_file' => __('Uploaded file is too large.', 'issues-map'),
-            'invalid_type' => __('Uploaded file has an unsupported file type.', 'issues-map'),
-            'max_file_limit' => __('Note: some of the files were not uploaded (only %count% files allowed)', 'issues-map'),
-            'required' => __('This field is required.', 'issues-map'),
+            'server_limit' => esc_html__('The uploaded file exceeds the maximum upload size of your server.', 'issues-map'),
+            'failed_upload' => esc_html__('File upload failed.', 'issues-map'),
+            'large_file' => esc_html__('Uploaded file is too large.', 'issues-map'),
+            'invalid_type' => esc_html__('Uploaded file has an unsupported file type.', 'issues-map'),
+            'max_file_limit' => esc_html__('The maximum number of files allowed was exceeded.', 'issues-map'),
+            'required' => esc_html__('This field is required.', 'issues-map'),
         );
 
         // return error message based on $error_key request

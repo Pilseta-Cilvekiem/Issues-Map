@@ -25,32 +25,7 @@ class WPUtils {
      * Register a taxonomy.
      */
 
-    public static function register_taxonomy($slug, $plural, $post_types, $options = null) {
-        $tax_name_lower = str_replace('_', ' ', $plural);
-        $tax_name = ucfirst($tax_name_lower);
-        $tax_name_singular = ucfirst(str_replace('_', ' ', $slug));
-
-        $labels = array(
-            'name' => __($tax_name, 'issues-map'),
-            'singular_name' => __($tax_name_singular, 'issues-map'),
-            'menu_name' => __($tax_name, 'issues-map'),
-            'all_items' => __("All $tax_name", 'issues-map'),
-            'edit_item' => __("Edit $tax_name_singular", 'issues-map'),
-            'view_item' => __("View $tax_name_singular", 'issues-map'),
-            'update_item' => __("Update $tax_name_singular", 'issues-map'),
-            'add_new_item' => __("Add New $tax_name_singular", 'issues-map'),
-            'new_item_name' => __("New $tax_name_singular Name", 'issues-map'),
-            'parent_item' => __("Parent $tax_name_singular", 'issues-map'),
-            'parent_item_colon' => __("Parent $tax_name_singular:", 'issues-map'),
-            'search_items' => __("Search $tax_name", 'issues-map'),
-            'popular_items' => __("Popular $tax_name", 'issues-map'),
-            'separate_items_with_commas' => __("Separate $tax_name_lower with commas", 'issues-map'),
-            'add_or_remove_items' => __("Add or remove $tax_name_lower", 'issues-map'),
-            'choose_from_most_used' => __("Choose from the most used $tax_name_lower", 'issues-map'),
-            'not_found' => __("No $tax_name_lower found", 'issues-map'),
-            'back_to_items' => __("Back to $tax_name_lower", 'issues-map'),
-        );
-
+    public static function register_taxonomy($slug, $plural, $post_types, $labels, $options = null) {
         $args = array(
             'labels' => $labels,
             'public' => false,
@@ -73,10 +48,7 @@ class WPUtils {
      * Register a custom post type.
      */
 
-    public static function register_custom_post_type($slug, $plural, $supports = null, $options = null) {
-        $type_name = ucfirst(str_replace('_', ' ', $plural));
-        $type_name_singular = ucfirst(str_replace('_', ' ', $slug));
-
+    public static function register_custom_post_type($slug, $plural, $labels, $supports = null, $options = null) {
         if ($supports === null) {
             $supports = array(
                 'title', // post title
@@ -90,21 +62,6 @@ class WPUtils {
                     //'post-formats', // post formats
             );
         }
-
-        $labels = array(
-            'name' => __($type_name, 'issues-map'),
-            'singular_name' => __($type_name_singular, 'issues-map'),
-            'menu_name' => __($type_name, 'issues-map'),
-            'name_admin_bar' => __($type_name_singular, 'issues-map'),
-            'add_new' => __("Add New", 'issues-map'),
-            'add_new_item' => __("Add New $type_name_singular", 'issues-map'),
-            'new_item' => __("New $type_name_singular", 'issues-map'),
-            'edit_item' => __("Edit $type_name_singular", 'issues-map'),
-            'view_item' => __("View $type_name_singular", 'issues-map'),
-            'all_items' => __("All $type_name", 'issues-map'),
-            'search_items' => __("Search $type_name", 'issues-map'),
-            'not_found' => __("No $type_name found.", 'issues-map'),
-        );
 
         $args = array(
             'supports' => $supports,
@@ -139,14 +96,6 @@ class WPUtils {
             $meta_value = $post_meta[$meta_key][0];
         }
         return $meta_value;
-    }
-
-    /*
-     * Update a meta data field for a post.
-     */
-
-    public static function update_post_meta($post_id, $meta_key, $meta_value) {
-        update_post_meta($post_id, $meta_key, $meta_value);
     }
 
     /*
@@ -235,24 +184,21 @@ class WPUtils {
         return $str;
     }
 
-    /* Delete taxonomy terms.
-     * Note: This method avoids using get_terms() which fails during plugin uninstall.
+    /* 
+     * Delete taxonomy terms.
      */
 
     public static function delete_custom_terms($taxonomy) {
-        global $wpdb;
-
-        $query = 'SELECT t.name, t.term_id
-                FROM ' . $wpdb->terms . ' AS t
-                INNER JOIN ' . $wpdb->term_taxonomy . ' AS tt
-                ON t.term_id = tt.term_id
-                WHERE tt.taxonomy = "' . $taxonomy . '"';
-
-        $terms = $wpdb->get_results($query);
-
-        foreach ($terms as $term) {
-            wp_delete_term($term->term_id, $taxonomy);
+        // Check that the taxonomy is registered (avoids problems during uninstall)
+        if (!get_taxonomy($taxonomy)) {
+            register_taxonomy($taxonomy, null);
         }
+        $terms = get_terms($taxonomy, array('hide_empty' => false));
+        if (is_array($terms)) {
+            foreach ($terms as $term) {
+                wp_delete_term($term->term_id, $taxonomy);
+            }
+        }     
     }
 
     /*

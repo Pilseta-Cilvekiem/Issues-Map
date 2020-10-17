@@ -17,6 +17,8 @@
 
 namespace IssuesMap;
 
+require_once 'filterable-view.php';
+
 /*
  * Displays a map of issues.
  */

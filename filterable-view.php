@@ -33,7 +33,7 @@ class FilterableView {
      */
 
     protected function get_filter_section_html() {
-        $own_issues_str = __('Only my issues', 'issues-map');
+        $own_issues_str = esc_html__('Only my issues', 'issues-map');
         $issue_data_mgr = $this->_plugin->get_issue_data_mgr();
         $content = '<div id="im-filter-section" class="im-form-section"><select id="im-category-filter" name="im-category-filter" class="im-category-filter im-select">';
         $content .= $issue_data_mgr->get_issue_category_options(0, __('(Filter by category)', 'issues-map'));
@@ -50,7 +50,7 @@ class FilterableView {
     protected function create_meta_query($filters) {
         $meta_query = array();
         if (isset($filters['own_issues']) && $filters['own_issues']) {
-            $user_meta_id = $this->_plugin->get_user_profile()->get_val(META_USER_ID);
+            $user_meta_id = $this->_plugin->get_auth_mgr()->get_val(META_USER_ID);
             $meta_query['user_id_clause'] = array('key' => META_USER_ID, 'value' => $user_meta_id);
         }
         return $meta_query;

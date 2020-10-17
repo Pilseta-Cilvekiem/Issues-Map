@@ -17,6 +17,9 @@
 
 namespace IssuesMap;
 
+require_once 'utils/utils.php';
+require_once 'utils/wp-utils.php';
+
 /*
  * Implements asynchronous AJAX callbacks.
  */
@@ -68,12 +71,12 @@ class AsyncManager {
 
         if ($success) {
             $success = false;
-            $user_profile = $this->_plugin->get_user_profile();
+            $auth_mgr = $this->_plugin->get_auth_mgr();
             $issue_data_mgr = $this->_plugin->get_issue_data_mgr();
 
             if ($issue_id) {
                 // Edit issue details
-                if ($user_profile->current_user_can_edit_post($issue_id)) {
+                if ($auth_mgr->current_user_can_edit_post($issue_id)) {
                     $issue_id = $issue_data_mgr->update_issue_details(
                             $issue_id,
                             $issue_category_id,
@@ -93,12 +96,12 @@ class AsyncManager {
                 }
             } else {
                 // Add new issue
-                if ($user_profile->current_user_can_add_post()) {
+                if ($auth_mgr->current_user_can_add_post()) {
                     $default_lat = get_option(OPTION_CENTRE_LAT, DEFAULT_CENTRE_LAT);
                     $default_lng = get_option(OPTION_CENTRE_LNG, DEFAULT_CENTRE_LNG);
                     $default_status = get_term_by('slug', ISSUE_STATUS_UNREPORTED_SLUG, ISSUE_STATUS_TAXONOMY);
                     $issue_status_id = $default_status ? $default_status->term_id : 0;
-                    $user_meta_id = $user_profile->get_val(META_USER_ID);
+                    $user_meta_id = $auth_mgr->get_val(META_USER_ID);
                     $issue_id = $issue_data_mgr->add_issue(
                             $user_meta_id,
                             $issue_category_id,
@@ -111,7 +114,7 @@ class AsyncManager {
                             $default_lng);
                     if ($issue_id) {
                         $permalink = get_permalink($issue_id);
-                        if ($user_profile->current_user_can_upload_images()) {
+                        if ($auth_mgr->current_user_can_upload_images()) {
                             $redirect_url = add_query_arg('view', ADD_IMAGES_VIEW, $permalink); // Next step: add images
                         } else {
                             $redirect_url = add_query_arg('view', SET_LOCATION_VIEW, $permalink); // Next step: set location                       
@@ -144,13 +147,13 @@ class AsyncManager {
         ));
         $issue_id = $inputs['issue_id'];
 
-        $user_profile = $this->_plugin->get_user_profile();
+        $auth_mgr = $this->_plugin->get_auth_mgr();
         $issue_data_mgr = $this->_plugin->get_issue_data_mgr();
 
         $success = false;
         $redirect_url = '';
         $message = '';
-        if ($issue_id && $user_profile->current_user_can_edit_post($issue_id)) {
+        if ($issue_id && $auth_mgr->current_user_can_edit_post($issue_id)) {
             $view = Utils::apply_default_val(sanitize_text_field($inputs['view']), EDIT_IMAGES_VIEW);
 
             // Move temporary uploaded image files to permanent locations by replacing 'tmp' with issue id in filename
@@ -205,10 +208,10 @@ class AsyncManager {
         check_ajax_referer('im-edit-location', 'security');
         $issue_id = filter_input(INPUT_POST, 'issue_id', FILTER_VALIDATE_INT);
 
-        $user_profile = $this->_plugin->get_user_profile();
+        $auth_mgr = $this->_plugin->get_auth_mgr();
         $issue_data_mgr = $this->_plugin->get_issue_data_mgr();
 
-        if (!$issue_id || !$user_profile->current_user_can_edit_post($issue_id)) {
+        if (!$issue_id || !$auth_mgr->current_user_can_edit_post($issue_id)) {
             wp_die();
         }
         $lat = filter_input(INPUT_POST, 'lat', FILTER_VALIDATE_FLOAT);
@@ -249,7 +252,7 @@ class AsyncManager {
      */
 
     public function edit_report($report_id, $issue_id, $send_response) {
-        $user_profile = $this->_plugin->get_user_profile();
+        $auth_mgr = $this->_plugin->get_auth_mgr();
         $report_data_mgr = $this->_plugin->get_report_data_mgr();
         $inputs = filter_input_array(INPUT_POST, array(
             'im-report-template-id' => FILTER_VALIDATE_INT,
@@ -283,7 +286,7 @@ class AsyncManager {
             // Issue report
             $from_email = filter_var($from_email, FILTER_VALIDATE_EMAIL);
         }
-        $user_meta_id = $user_profile->get_val(META_USER_ID);
+        $user_meta_id = $auth_mgr->get_val(META_USER_ID);
         
         $success = true;
         $message = '';
@@ -313,7 +316,7 @@ class AsyncManager {
             $success = false;
             if ($report_id) {
                 // Edit report                       
-                if ($user_profile->current_user_can_edit_post($report_id)) {
+                if ($auth_mgr->current_user_can_edit_post($report_id)) {
                     if ($report_data_mgr->update_report(
                                     $report_id,
                                     $user_meta_id,
@@ -347,7 +350,7 @@ class AsyncManager {
                 }
             } else {
                 // Add new report or report template
-                if ($user_profile->current_user_can_add_post()) {
+                if ($auth_mgr->current_user_can_add_post()) {
                     $report_id = $report_data_mgr->add_report(
                             $user_meta_id,
                             $issue_id,
@@ -406,35 +409,35 @@ class AsyncManager {
         $report_id = $inputs['report_id'];
         $issue_id = get_post_meta($report_id, META_ISSUE_ID, true);
 
-        $user_profile = $this->_plugin->get_user_profile();
+        $auth_mgr = $this->_plugin->get_auth_mgr();
 
         $success = false;
         $message = '';
         $recipient_email = filter_var( get_post_meta($report_id, META_RECIPIENT_EMAIL, true), FILTER_VALIDATE_EMAIL);
         $user_email = filter_var( get_post_meta($report_id, META_FROM_EMAIL, true), FILTER_VALIDATE_EMAIL);
         $moderator_email = filter_var(get_option(OPTION_MODERATOR_EMAIL, get_bloginfo('admin_email')), FILTER_VALIDATE_EMAIL);
-        $can_send_reports = $user_profile->current_user_can_send_reports();
+        $can_send_reports = $auth_mgr->current_user_can_send_reports();
         $recipient_user = get_user_by('email', $recipient_email);
-        $recipient_is_moderator = $recipient_user && $user_profile->is_moderator($recipient_user->ID);
+        $recipient_is_moderator = $recipient_user && $auth_mgr->is_moderator($recipient_user->ID);
 
         if (DEMO_VERSION) {        
             $message = esc_html__('Report sending is disabled in demo mode.', 'issues-map');
         }
         else if (!$report_id || !$issue_id || !$moderator_email || !$can_send_reports ||
-                !$user_profile->current_user_can_edit_post($report_id))
+                !$auth_mgr->current_user_can_edit_post($report_id))
         {
             $message = esc_html__('You are not authorised to send this report.', 'issues-map');
         }
         else if (!$recipient_email || !$user_email) {
             $message = esc_html__('Please specify valid email addresses in the report for both yourself and the recipient.', 'issues-map');            
         }
-        else if (!$recipient_is_moderator && !$user_profile->current_user_can_send_reports_to_anyone()) {
+        else if (!$recipient_is_moderator && !$auth_mgr->current_user_can_send_reports_to_anyone()) {
             $message = esc_html__('You are only authorised to send reports to moderators.', 'issues-map');
         }
         else {
             $recipient_name = get_post_meta($report_id, META_RECIPIENT_NAME, true);
             $ref = get_post_meta($report_id, META_REF, true);            
-            $subject = __("Issue report", 'issues-map') . ' ' . $ref;
+            $subject = sanitize_text_field(__("Issue report", 'issues-map') . ' ' . $ref);
             $body = get_post_meta($report_id, META_EMAIL_BODY, true);
             $footer = sprintf(__("This email has been sent automatically from %s.", 'issues-map'), get_bloginfo('url'));
             $body .= "\n\n" . $footer;                       
@@ -445,7 +448,7 @@ class AsyncManager {
             if ($filename) {
                 $filepath = $this->_plugin->get_upload_dir() . $filename;
                 // Send from the moderator with the user's email as the reply-to address
-                $headers = array('From: ' . __('Issues Map', 'issues-map') . ' <' . $moderator_email . '>',
+                $headers = array('From: ' . sanitize_text_field(__('Issues Map', 'issues-map')) . ' <' . $moderator_email . '>',
                     //'Reply-To: ' . $user_email,   // Including this may result in 'data not accepted' error from SMTP server
                     'Cc: ' . $user_email,
                     );                        
@@ -453,7 +456,7 @@ class AsyncManager {
                     // Update issue status
                     $issue_data_mgr = $this->_plugin->get_issue_data_mgr();
                     $issue_data_mgr->do_issue_status_workflow($issue_id, ISSUE_STATUS_REPORT_CREATED_SLUG, ISSUE_STATUS_REPORT_SENT_SLUG);
-                    WPUtils::update_post_meta($report_id, META_DATE_SENT, date('d.m.Y'));
+                    update_post_meta($report_id, META_DATE_SENT, date('d.m.Y'));
                     $message = esc_html(sprintf(__('The report has been sent to %s', 'issues-map'), $recipient_name));
                     $success = true;
                 } else {
@@ -480,13 +483,11 @@ class AsyncManager {
         ));
         $report_id = $inputs['report_id'];
 
-        $user_profile = $this->_plugin->get_user_profile();
-        $report_data_mgr = $this->_plugin->get_report_data_mgr();
-
         $success = false;
         $redirect_url = '';
         $message = '';
-        if ($report_id && $user_profile->current_user_can_edit_post($report_id)) {
+        $auth_mgr = $this->_plugin->get_auth_mgr();
+        if ($report_id && $auth_mgr->current_user_can_edit_post($report_id)) {
             require_once 'report-writer.php';
             $report_writer = new ReportWriter($this->_plugin);
             $filename = $report_writer->create_pdf($report_id, false);
@@ -494,7 +495,7 @@ class AsyncManager {
                 $success = true;
                 $redirect_url = $this->_plugin->get_upload_url() . $filename;
             } else {
-                $message = esc_html__('Unable to create PDF file for report.', 'issues-map');
+                $message = esc_html__('Unable to create a PDF file for this report.', 'issues-map');
             }
         } else {
             $message = esc_html__('You are not authorised to download this report.', 'issues-map');
@@ -513,8 +514,8 @@ class AsyncManager {
         check_ajax_referer('im-issue-or-report', 'security');
         $issue_id = filter_input(INPUT_POST, 'issue_id', FILTER_VALIDATE_INT);
 
-        $user_profile = $this->_plugin->get_user_profile();
-        if (!$issue_id || !$user_profile->current_user_can_edit_post($issue_id)) {
+        $auth_mgr = $this->_plugin->get_auth_mgr();
+        if (!$issue_id || !$auth_mgr->current_user_can_edit_post($issue_id)) {
             wp_die();
         }
         $filename = sanitize_text_field(filter_input(INPUT_POST, 'filename', FILTER_DEFAULT));
@@ -543,8 +544,8 @@ class AsyncManager {
         check_ajax_referer('im-issue-or-report', 'security');
         $issue_id = filter_input(INPUT_POST, 'issue_id', FILTER_VALIDATE_INT);
 
-        $user_profile = $this->_plugin->get_user_profile();
-        if (!$issue_id || !$user_profile->current_user_can_edit_post($issue_id)) {
+        $auth_mgr = $this->_plugin->get_auth_mgr();
+        if (!$issue_id || !$auth_mgr->current_user_can_edit_post($issue_id)) {
             wp_die();
         }
         $filename = sanitize_text_field(filter_input(INPUT_POST, 'filename', FILTER_DEFAULT));
@@ -593,9 +594,9 @@ class AsyncManager {
         $success = false;
         $message = '';
         $redirect_url = '/';
-        $user_profile = $this->_plugin->get_user_profile();
+        $auth_mgr = $this->_plugin->get_auth_mgr();
         $issue_data_mgr = $this->_plugin->get_issue_data_mgr();
-        if ($issue_id && $user_profile->current_user_can_edit_post($issue_id)) {
+        if ($issue_id && $auth_mgr->current_user_can_edit_post($issue_id)) {
             if ($issue_data_mgr->delete_issue($issue_id)) {
                 $plugin_home_id = get_option(OPTION_LIST_PAGE_ID, 0);
                 $redirect_url = get_permalink($plugin_home_id);
@@ -624,8 +625,8 @@ class AsyncManager {
 
         $success = false;
         $message = '';
-        $user_profile = $this->_plugin->get_user_profile();
-        if ($report_id && $user_profile->current_user_can_edit_post($report_id)) {
+        $auth_mgr = $this->_plugin->get_auth_mgr();
+        if ($report_id && $auth_mgr->current_user_can_edit_post($report_id)) {
             $issue_id = get_post_meta($report_id, META_ISSUE_ID, true);
             $report_data_mgr = $this->_plugin->get_report_data_mgr();
             if ($report_data_mgr->delete_report($report_id)) {
@@ -655,6 +656,7 @@ class AsyncManager {
         $filters['status'] = sanitize_text_field(filter_input(INPUT_POST, 'status_filter', FILTER_DEFAULT));
         $filters['own_issues'] = filter_input(INPUT_POST, 'own_issues_filter', FILTER_VALIDATE_BOOLEAN);
 
+        require_once 'issues-list.php';
         $issues_list = new IssuesList($this->_plugin);
         $data = $issues_list->get_list_items_html($filters, $page_num);
 
@@ -672,6 +674,7 @@ class AsyncManager {
         $filters['status'] = sanitize_text_field(filter_input(INPUT_POST, 'status_filter', FILTER_DEFAULT));
         $filters['own_issues'] = filter_input(INPUT_POST, 'own_issues_filter', FILTER_VALIDATE_BOOLEAN);
 
+        require_once 'map-view.php';
         $map_view = new MapView($this->_plugin);
         $map_content = $map_view->get_map_content($filters);
         $data = json_encode($map_content);

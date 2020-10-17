@@ -17,6 +17,8 @@
 
 namespace IssuesMap;
 
+require_once 'utils/utils.php';
+
 /**
  * Handles data relating to issues and issue categories, statuses and images.
  */
@@ -197,7 +199,7 @@ class IssueDataManager {
         
         // Store meta data
         $json = json_encode($image_data);
-        WPUtils::update_post_meta($issue_id, META_IMAGE_DATA, $json);
+        update_post_meta($issue_id, META_IMAGE_DATA, $json);
 
         return $image_data;
     }
@@ -331,7 +333,7 @@ class IssueDataManager {
     public function update_featured_image($issue_id, $filename) {
         $success = false;
         if ($filename === '' || preg_match("/^{$issue_id}-[0-9-]+\\.(" . SUPPORTED_IMAGE_TYPES . ")$/i", $filename)) {
-            WPUtils::update_post_meta($issue_id, META_FEATURED_IMAGE, $filename);
+            update_post_meta($issue_id, META_FEATURED_IMAGE, $filename);
             $success = true;
         }        
         return $success;
@@ -418,51 +420,4 @@ class IssueDataManager {
         }
     }
     
-    /**
-     * Generate some artificial issue posts for testing and demonstration purposes.
-     */
-    /*
-    public function debug_generate_test_data() {
-
-        $num_posts = 20;
-        $centre_lat = floatval(get_option(OPTION_CENTRE_LAT, DEFAULT_CENTRE_LAT));
-        $centre_lng = floatval(get_option(OPTION_CENTRE_LNG, DEFAULT_CENTRE_LNG));
-        $radius_lat = 0.05;
-        $radius_lon = 0.1;
-
-        for ($i = 0; $i < $num_posts; $i++) {
-
-            $rand1 = rand(0, 1000);
-            $rand2 = rand(0, 1000);
-            $rand3 = rand(0, 1000);
-
-            // Generate a random location, issue category and status
-            $latitude = $centre_lat + (-1.0 + 0.002 * $rand1) * $radius_lat;
-            $longitude = $centre_lon + (-1.0 + 0.002 * $rand2) * $radius_lon;
-            $issue_category = ($rand1 % 2) ? 'Bedres' : 'Ietvju apmales';
-            $issue_category = ($rand2 % 3) ? $issue_category : 'Velonovietnes';
-            $issue_status = ($rand2 % 3) ? ISSUE_STATUS_UNREPORTED : ISSUE_STATUS_REPORT_SENT;   // Some reported, some not
-            $issue_status = ($rand2 % 5) ? $issue_status : ISSUE_STATUS_RESOLVED;    // Some issues resolved
-            $description = "Issue description";
-
-            $issue_id = $this->add_issue($issue_category,
-                    $issue_status,
-                    $description);
-            if ($issue_id) {
-                $this->update_issue_location($issue_id, $latitude, $longitude);
-
-                // Attach 1, 2 or 3 images
-                $dir = $this->_plugin->get_upload_dir();
-                $num_images = ($rand3 % 3) + 1;
-                for ($j = 1; $j <= $num_images; $j++) {
-                    $source_image = $dir . '/sample/' . sprintf("data/%s/%03d.jpg", str_replace(' ', '-', $issue_category), $j);
-                    $dest_image = $dir . $issue_id . '_' . $j . '.jpg';
-                    copy($source_image, $dest_image);
-                }
-            }
-        }
-
-        echo "<div style='color: orange'>Generated $num_posts artificial issue posts!</div>";
-    }
-*/
 }

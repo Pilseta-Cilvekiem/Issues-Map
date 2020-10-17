@@ -1,18 +1,18 @@
 <?php
 
-/* 
-    The Issues Map plugin is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+/*
+  The Issues Map plugin is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace IssuesMap;
@@ -20,7 +20,9 @@ namespace IssuesMap;
 /*
  * Manages issue category editing.
  */
+
 class IssueCategoryManager {
+
     private $_plugin;
 
     public function __construct($plugin = null) {
@@ -44,11 +46,11 @@ class IssueCategoryManager {
 
     public function manage_edit_issue_category_columns($columns) {
         $new_columns['cb'] = '<input type="checkbox" />';
-        $new_columns['name'] = __('Name', 'issues-map');
-        $new_columns['icon'] = __('Icon', 'issues-map');
-        $new_columns['description'] = __('Description', 'issues-map');
-        $new_columns['slug'] = __('Slug', 'issues-map');
-        $new_columns['posts'] = __('Count', 'issues-map');
+        $new_columns['name'] = esc_html_x('Name', 'Category or tag name', 'issues-map');
+        $new_columns['icon'] = esc_html__('Icon', 'issues-map');
+        $new_columns['description'] = esc_html__('Description', 'issues-map');
+        $new_columns['slug'] = esc_html__('Slug', 'issues-map');
+        $new_columns['posts'] = esc_html__('Count', 'issues-map');
         return $new_columns;
     }
 
@@ -209,4 +211,5 @@ class IssueCategoryManager {
                 // End - Maps category
         );
     }
+
 }

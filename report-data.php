@@ -81,7 +81,7 @@ class ReportDataManager {
             $next_num = $this->get_next_report_num($issue_id);
             $ref = $issue_id . '-' . $next_num;
             $salt = dechex(rand());
-            $report_title = __('Issue report', 'issues-map') . ' ' . $ref;
+            $report_title = sanitize_text_field(__('Issue report', 'issues-map') . ' ' . $ref);
             $report_id = wp_update_post(array(
                 'ID' => $report_id,
                 'post_title' => $report_title,

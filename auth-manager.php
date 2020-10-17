@@ -18,11 +18,11 @@
 namespace IssuesMap;
 
 /**
- * Stores a user ID (and potentially preferences) using a cookie.
- * Performs authorisation for both logged in and anonymous users.
-
+ * Manages user identity and authorisation.
+ * Stores a user ID using a cookie to allow support for both logged in 
+ * and anonymous users.
  */
-class UserProfile {
+class AuthManager {
 
     private $_plugin;
     private $_user_settings = array();
@@ -30,13 +30,7 @@ class UserProfile {
 
     public function __construct($plugin) {
         $this->_plugin = $plugin;
-    }
-
-    /*
-     * Initialise user settings (using cookie if anonymous user).
-     */
-
-    public function init() {
+        
         $user_id = get_current_user_id();
         if ($user_id) {
             // User is logged in - use their settings stored in user meta data

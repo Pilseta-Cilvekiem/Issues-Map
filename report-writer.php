@@ -71,7 +71,7 @@ class ReportWriter extends \tFPDF {
                 $sign_off = WPUtils::get_meta_val($report_meta, META_SIGN_OFF);
                 $added_by = WPUtils::get_meta_val($report_meta, META_ADDED_BY);
                 $date = WPUtils::get_meta_val($report_meta, META_DATE);
-                $ref_str = __('Ref:', 'issues-map');
+                $ref_str = sanitize_text_field(__('Ref:', 'issues-map'));
 
                 $this->AddFont($this->_font_name, '', 'DejaVuSansCondensed.ttf', true);
                 $this->AddFont($this->_font_name, 'B', 'DejaVuSansCondensed-Bold.ttf', true);

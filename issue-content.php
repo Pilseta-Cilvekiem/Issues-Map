@@ -36,9 +36,9 @@ class IssueContentManager {
         $issue_data_mgr = $this->_plugin->get_issue_data_mgr();
         $intro_str = esc_html__('Enter the details for the issue.', 'issues-map');
         $warning = esc_html__('Issues submitted are visible to everyone. However, your email address (if provided) will only be visible to our moderators.', 'issues-map');
-        $issue_category_str = esc_html__('Issue category', 'issues-map');
-        $issue_status_str = esc_html__('Issue status', 'issues-map');
-        $issue_title_str = esc_html__('Issue title', 'issues-map');
+        $issue_category_str = esc_html__('Category', 'issues-map');
+        $issue_status_str = esc_html__('Status', 'issues-map');
+        $issue_title_str = esc_html__('Title', 'issues-map');
         $description_str = esc_html__('Description', 'issues-map');
         $added_by_str = esc_html__('Your name (publicly visible)', 'issues-map');
         $email_address_str = esc_html__('Your email address (optional, only visible to moderators)', 'issues-map');
@@ -223,8 +223,8 @@ EOS;
 
     public function get_issue_view($issue_id) {
 
-        $user_profile = $this->_plugin->get_user_profile();
-        $can_edit = $user_profile->current_user_can_edit_post($issue_id);
+        $auth_mgr = $this->_plugin->get_auth_mgr();
+        $can_edit = $auth_mgr->current_user_can_edit_post($issue_id);
 
         $content = '<div class="im-issue-view">';
 
@@ -240,24 +240,31 @@ EOS;
         }
         $content .= '<hr/></div>';
 
-        // Show uploaded images with captions
-        $images_str = esc_html__('Images', 'issues-map');
-        $content .= '<div class="im-form-section"><h3>' . $images_str . '</h3>';
+        // Get the image content
+        $upload_url = $this->_plugin->get_upload_url();
+        $issue_data_mgr = $this->_plugin->get_issue_data_mgr();
+        $image_data = $issue_data_mgr->get_image_meta_data($issue_id);
+        $featured_image = $can_edit ? $issue_data_mgr->get_featured_image($issue_id) : '';
         $args = array(
             'selectable' => $can_edit,
             'hyperlink' => false,
             'timestamp' => true,
             'gps' => false,
-            'featured_image' => $can_edit,
+            'featured_image' => $featured_image,
         );
-        $images_html = $this->get_images_html($issue_id, $args);
+        require_once 'image-content.php';
+        $image_content_mgr = new ImageContentManager();
+        $images_html = $image_content_mgr->get_images_html($image_data, $upload_url, $args);
+
+        // Show uploaded images with captions
+        $content .= '<div class="im-form-section"><h3>' . esc_html__('Images', 'issues-map') . '</h3>';
         if ($images_html) {
             $content .= $images_html;
         } else {
-            $content .= '<p>' . __('No images added yet.', 'issues-map') . '</p>';
+            $content .= '<p>' . esc_html__('No images added yet.', 'issues-map') . '</p>';
         }
         // Image editing options
-        $can_upload = $can_edit && $user_profile->current_user_can_upload_images();
+        $can_upload = $can_edit && $auth_mgr->current_user_can_upload_images();
         if ($can_upload) {
             $add_images_str = esc_html__('Add images', 'issues-map');
             $add_images_title = esc_attr__('Add images', 'issues-map');
@@ -327,67 +334,6 @@ EOS;
     }
 
     /*
-     * Get the html to display issue images optionally with captions.
-     */
-
-    public function get_images_html(
-            $issue_id,
-            $args = array(
-                'selectable' => false,
-                'featured_image' => false,
-                'hyperlink' => false,
-                'timestamp' => true,
-                'gps' => false,
-            )
-    ) {
-        $content = '';
-
-        $issue_data_mgr = $this->_plugin->get_issue_data_mgr();
-        $upload_url = $this->_plugin->get_upload_url();
-        $image_data = $issue_data_mgr->get_image_meta_data($issue_id);
-
-        $selectable_class = (isset($args['selectable']) && $args['selectable']) ? ' im-selectable' : '';
-        $featured_image = (isset($args['featured_image']) && $args['featured_image']) ? $issue_data_mgr->get_featured_image($issue_id) : '';
-        $include_hyperlink = isset($args['hyperlink']) && $args['hyperlink'];
-        $include_timestamp = isset($args['timestamp']) && $args['timestamp'];
-        $include_gps = isset($args['gps']) && $args['gps'];
-
-        $count = 0;
-        foreach ($image_data as $image_meta) {
-            $count++;
-            $filename = $image_meta[META_FILENAME];
-            $featured_class = $filename === $featured_image ? ' im-featured' : '';
-            $thumbnail = str_replace('.', '-thumb.', $filename);
-            $fileref = esc_attr($filename);
-            $orig_src = esc_url($upload_url . $filename);
-            $src = esc_url($upload_url . $thumbnail);
-            $alt = esc_attr($filename);
-            $width = THUMBNAIL_WIDTH;
-            $content .= '<div class="im-image-item' . $featured_class . '" data-fileref="' . $fileref . '">';
-            $content .= '<figure><img id="im-image-' . $count . '" class="im-image' . $selectable_class . '" alt="' . $alt . '" src="' . $src . '" width="' . $width . '" />';
-            $content .= '<figcaption class="im-caption">';
-            if ($include_hyperlink) {
-                $content .= '<a href="' . esc_url($orig_src) . '">' . esc_html($filename) . '</a><br/>';
-            }
-            if ($include_timestamp && $image_meta[META_TIMESTAMP]) {
-                $content .= esc_html($image_meta[META_TIMESTAMP]) . '<br/>';
-            }
-            $lat = $image_meta[META_LATITUDE];
-            $lng = $image_meta[META_LONGITUDE];
-            if ($include_gps && ($lat || $lng)) {
-                $gps_line = 'GPS: ' . $lat . ', ' . $lng;
-                $content .= esc_html($gps_line) . '<br/>';
-            }
-            $content .= '</figcaption></figure>';
-            if ($selectable_class || $featured_image) {
-                $content .= '<div class="im-featured-star"><span class="dashicons dashicons-star-filled"></span></div>';
-            }
-            $content .= '</div>';
-        }
-        return $content;
-    }
-
-    /*
      * Generate issue item html for list view or map popup info window.
      */
 
@@ -420,7 +366,7 @@ EOS;
 
         $issue_data_mgr = $this->_plugin->get_issue_data_mgr();
         $issue_category_slug = DEFAULT_ISSUE_CATEGORY_SLUG;
-        $issue_category = __(DEFAULT_ISSUE_CATEGORY, 'issues-map');
+        $issue_category = __('Uncategorized', 'issues-map');
         $category_icon = DEFAULT_CATEGORY_ICON_NAME;
         $icon_color = DEFAULT_COLOR;
         $cat = $issue_data_mgr->get_issue_category($issue_id);
@@ -431,7 +377,7 @@ EOS;
             $icon_color = get_term_meta($cat->term_id, META_COLOR, true);
         }
         $issue_status_slug = ISSUE_STATUS_UNREPORTED_SLUG;
-        $issue_status = __(ISSUE_STATUS_UNREPORTED, 'issues-map');
+        $issue_status = __('Unreported', 'issues-map');
         $status_color = DEFAULT_COLOR;
         $status = $issue_data_mgr->get_issue_status($issue_id);
         if ($status) {
@@ -440,7 +386,7 @@ EOS;
             $status_color = get_term_meta($status->term_id, META_COLOR, true);
         }
         $added_by_str = esc_html__('Added by:', 'issues-map');
-        $author = get_post_meta($issue_id, META_ADDED_BY, true);
+        $author = esc_html(get_post_meta($issue_id, META_ADDED_BY, true));
         $added_on_str = esc_html__('Added on:', 'issues-map');
         $date = esc_html(date('d.m.Y', strtotime($post->post_date)));
         $issue_id_str = esc_html__('Issue ID:', 'issues-map');
@@ -449,13 +395,13 @@ EOS;
 
         $html = '<div class="im-issue-details"><div class="im-issue-groups">';
         if ($issue_category_slug !== DEFAULT_ISSUE_CATEGORY_SLUG) {     // Don't show if uncategorised
-            $html .= '<div class="im-issue-category" style="background-color: ' . $icon_color . ';">';
-            $html .= '<i class="material-icons">' . $category_icon . '</i> <span>' . $issue_category . '</span>';
+            $html .= '<div class="im-issue-category" style="background-color: ' . esc_attr($icon_color) . ';">';
+            $html .= '<i class="material-icons">' . $category_icon . '</i> <span>' . esc_html($issue_category) . '</span>';
             $html .= '</div>';
         }
         if ($issue_status_slug !== ISSUE_STATUS_UNREPORTED_SLUG) {     // Don't status show if unreported
-            $html .= '<div class="im-issue-status" style="background-color: ' . $status_color . ';">';
-            $html .= '<i class="material-icons">' . ISSUE_STATUS_ICON_NAME . '</i> <span>' . $issue_status . '</span>';
+            $html .= '<div class="im-issue-status" style="background-color: ' . esc_attr($status_color) . ';">';
+            $html .= '<i class="material-icons">' . ISSUE_STATUS_ICON_NAME . '</i> <span>' . esc_html($issue_status) . '</span>';
             $html .= '</div>';
         }
         $html .= '</div><div class="im-issue-summary">';
@@ -472,6 +418,7 @@ EOS;
             $description = nl2br(esc_html($post->post_content));
         }
         else {
+            require_once 'utils/utils.php';
             $description = esc_html(Utils::cap_str_len($post->post_content, MAX_LEN_200, true));
         }
         $html .= '<div class="im-issue-description">' . $description . '</div>';
@@ -539,11 +486,11 @@ EOS;
             $view_title = esc_attr__('View this report', 'issues-map');
             $edit_str = esc_html__('Edit', 'issues-map');
             $edit_title = esc_attr__('Edit this report', 'issues-map');
-            $sent_prefix = __('Report %s sent by %s', 'issues-map');
-            $created_prefix = __('Report %s created by %s', 'issues-map');
+            $sent_prefix = __('Report %1$s sent by %2$s', 'issues-map');
+            $created_prefix = __('Report %1$s created by %2$s', 'issues-map');
             $delete_str = esc_html__('Delete', 'issues-map');
             $delete_title = esc_attr__('Delete this report', 'issues-map');
-            $user_profile = $this->_plugin->get_user_profile();
+            $auth_mgr = $this->_plugin->get_auth_mgr();
             while ($query_posts->have_posts()) {
                 $query_posts->the_post();
                 $post = get_post();
@@ -551,7 +498,6 @@ EOS;
                 if (!$added_by) {
                     $added_by = __('anonymous user', 'issues-map');
                 }
-                $added_by = esc_html($added_by);
                 $ref = esc_html(get_post_meta($post->ID, META_REF, true));
                 $date_sent = esc_html(get_post_meta($post->ID, META_DATE_SENT, true));
                 $date = $date_sent ? $date_sent : esc_html(get_post_meta($post->ID, META_DATE, true));
@@ -561,7 +507,7 @@ EOS;
                 $content .= '<span class="im-date">' . date('d.m.Y', strtotime($date)) . ': </span>';
                 $content .= '<span class="im-report-summary-text">' . esc_html(sprintf($prefix, $ref, $added_by)) . '</span>';
                 // View / edit links
-                if ($user_profile->current_user_can_edit_post($post->ID)) {
+                if ($auth_mgr->current_user_can_edit_post($post->ID)) {
                     $content .= '<a href="' . esc_url($view_href) . '" title="' . $view_title . '" class="im-edit-link">' . $view_str . '</a>';
                     $edit_href = esc_url(add_query_arg('view', EDIT_REPORT_VIEW, $view_href));
                     $content .= "<a href='{$edit_href}' title='{$edit_title}' class='im-edit-link'>{$edit_str}</a>";
@@ -570,7 +516,7 @@ EOS;
                 $content .= '</div>';
             }
         } else {
-            $content .= __('No reports available for this issue.', 'issues-map');
+            $content .= esc_html__('No reports available for this issue.', 'issues-map');
         }
         wp_reset_postdata();
 
